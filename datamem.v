@@ -1,26 +1,33 @@
 
 
 
-module datamem(MemWrite,MemRead,Addr,Wdata,Rdata);
+module datamem(clk,MemWrite,MemRead,Addr,Wdata,Rdata);
 
+	input clk;
 	input [31:0] Addr;
 	input MemWrite;
 	input MemRead;
 	input [31:0] Wdata;
 	output reg [31:0] Rdata;
 
-	reg [31:0] regfile[511:0];	//32 32-bit registers
+	reg [31:0] mem [31:0];	
+
+	initial begin
+		$readmemh("inputmem.hex", mem);
+	end
 
 	//memory write
-	always@(MemWrite,Addr,Wdata)
+	always@(posedge clk)
+	begin
 		if(MemWrite)
 		begin
 			$display("Writing %d -> Addr: %d",Wdata,Addr);
-			regfile[Addr] <= Wdata; 
+			mem[Addr] <= Wdata; 
 		end
 
-	//memory read
-	always@(MemRead,Addr)
 		if(MemRead)
-			Rdata <= regfile[Addr];	
+			Rdata <= mem[Addr];
+	end
+
+
 endmodule
