@@ -3,7 +3,7 @@
 
 module datamem(MemWrite,MemRead,Addr,Wdata,Rdata);
 
-	input [31:0] Addr；
+	input [31:0] Addr;
 	input MemWrite;
 	input MemRead;
 	input [31:0] Wdata;
