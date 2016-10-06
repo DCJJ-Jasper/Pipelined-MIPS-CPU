@@ -49,19 +49,22 @@ endmodule
 
 module test();
    
-   reg [2:0] opcode = 3'b001;
-   reg [31:0] rs = 32'b100;
-   reg [31:0] rt = 32'b11;
+   reg [2:0] opcode = 3'b010;
+   reg [31:0] rs = 32'b1011;
+   reg [31:0] rt = 32'b111;
    wire       [31:0] out;
 
    initial begin
-      //#10 opcode = 3'b110;
-      #10 rs = 11;
-      #10 rt = 7;
+      #10 opcode = 6;
+      #10 opcode = 0;
+      #10 opcode = 1;
+      #10 opcode = 7;
+      
+      
    end
 
    initial
-     $monitor("rs:%b rt:%b out:%b",rs,rt,out );
+     $monitor("op:%b rs:%b rt:%b out:%b",opcode,rs,rt,out );
 
    alu one(opcode,rs,rt,out);
    
