@@ -10,7 +10,7 @@ module datamem(clk,MemWrite,MemRead,Addr,Wdata,Rdata);
 	input [31:0] Wdata;
 	output reg [31:0] Rdata;
 
-	reg [31:0] mem [32'h00100000 : 32'h00100004];	
+	reg [31:0] mem [32'h00100000 : 32'h00100005];	
 
 	initial begin
 		$readmemh("inputmem.hex", mem);
@@ -22,13 +22,13 @@ module datamem(clk,MemWrite,MemRead,Addr,Wdata,Rdata);
 		if(MemWrite)
 		begin
 			//$display("Writing %d -> Addr: %d",Wdata,Addr);
-			mem[Addr] <= Wdata; 
+			mem[Addr] = Wdata; 
 			// Perhaps, need to change later
 			$writememh("inputmem.hex", mem);
 		end
 
 		if(MemRead)
-			Rdata <= mem[Addr];
+			Rdata = mem[Addr];
 	end
 
 

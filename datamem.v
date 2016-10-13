@@ -22,13 +22,13 @@ module datamem(clk,MemWrite,MemRead,Addr,Wdata,Rdata);
 		if(MemWrite)
 		begin
 			//$display("Writing %d -> Addr: %d",Wdata,Addr);
-			mem[Addr] <= Wdata; 
+			mem[Addr] = Wdata; 
 			// Perhaps, need to change later
 			$writememh("inputmem.hex", mem);
 		end
 
 		if(MemRead)
-			Rdata <= mem[Addr];
+			Rdata = mem[Addr];
 	end
 
 
