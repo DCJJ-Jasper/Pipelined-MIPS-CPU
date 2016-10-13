@@ -1,6 +1,7 @@
 `timescale 1ns/1ns
 
-module control(opcode, 
+module control(opcode,
+	func,
 	regDst, 
 	jump, 
 	branch, 
@@ -37,62 +38,100 @@ module control(opcode,
 
 	always @(*) begin
 		case (opcode)
-			`ADD: begin
+		        `SPECIAL:begin
+		              case (func)
+				`ADD: begin
 				#15 regDst <= 1'b1;
+				   jump <= 1'b0;
+				   branch <= 1'b0;
+				   memRead <= 1'b0; 
+				   memToReg <= 1'b0; 
+				   ALUop <= 3'b010;
+				   regWrite <= 1'b1;
+				   ALUSrc <= 1'b0;
+				   memWrite <= 1'b0;
+				end // case: `ADD
+				`ADDU: begin 
+				#15 regDst <= 1'b1;
+				   jump <= 1'b0;
+				   branch <= 1'b0;
+				   memRead <= 1'b0; 
+				   memToReg <= 1'b0; 
+				   ALUop <= 3'b010;
+				   regWrite <= 1'b1;
+				   ALUSrc <= 1'b0;
+				   memWrite <= 1'b0;
+				end // case: `ADDU
+				`AND: begin
+				#15 regDst <= 1'b1;
+				   jump <= 1'b0;
+				   branch <= 1'b0;
+				   memRead <= 1'b0; 
+				   memToReg <= 1'b0; 
+				   ALUop <= 3'b000;
+				   regWrite <= 1'b1;
+				   ALUSrc <= 1'b0;
+				   memWrite <= 1'b0;
+				end // case: `AND
+				`JR: begin
+				   #15 regDst <= 1'bx;
+				   jump <= 1'b1;
+				   branch <= 1'b0;
+				   memRead <= 1'b0; 
+				   memToReg <= 1'b0; 
+				   ALUop <= 3'bxxx;
+				   regWrite <= 1'b0;
+				   ALUSrc <= 1'bx;
+				   memWrite <= 1'b0;
+				end // case: `JR
+				`OR: begin
+				   #15 regDst <= 1'b1;
+				   jump <= 1'b0;
+				   branch <= 1'b0;
+				   memRead <= 1'b0; 
+				   memToReg <= 1'b0; 
+				   ALUop <= 3'b001;
+				   regWrite <= 1'b1;
+				   ALUSrc <= 1'b0;
+				   memWrite <= 1'b0;
+				end // case: `OR
+				
+				`SLT: begin
+				   #15 regDst <= 1'b1;
+				   jump <= 1'b0;
+				   branch <= 1'b0;
+				   memRead <= 1'b0; 
+				   memToReg <= 1'b0; 
+				   ALUop <= 3'b111;
+				   regWrite <= 1'b1;
+				   ALUSrc <= 1'b0;
+				   memWrite <= 1'b0;
+				end // case: `SLT
+				`SUB: begin
+				   #15 regDst <= 1'b1;
+				   jump <= 1'b0;
+				   branch <= 1'b0;
+				   memRead <= 1'b0; 
+				   memToReg <= 1'b0; 
+				   ALUop <= 3'b110;
+				   regWrite <= 1'b1;
+				   ALUSrc <= 1'b0;
+				   memWrite <= 1'b0;
+				end     
+			      endcase 
+		        
+			`ADDI: begin
+				#15 regDst <= 1'b0;
 				jump <= 1'b0;
 				branch <= 1'b0;
 				memRead <= 1'b0; 
 				memToReg <= 1'b0; 
 				ALUop <= 3'b010;
 				regWrite <= 1'b1;
-				ALUSrc <= 1'b0;
+				ALUSrc <= 1'b1;
 				memWrite <= 1'b0;
-			end
-			`SUB: begin
-				#15 regDst <= 1'b1;
-				jump <= 1'b0;
-				branch <= 1'b0;
-				memRead <= 1'b0; 
-				memToReg <= 1'b0; 
-				ALUop <= 3'b110;
-				regWrite <= 1'b1;
-				ALUSrc <= 1'b0;
-				memWrite <= 1'b0;
-			end	
-			`AND: begin
-				#15 regDst <= 1'b1;
-				jump <= 1'b0;
-				branch <= 1'b0;
-				memRead <= 1'b0; 
-				memToReg <= 1'b0; 
-				ALUop <= 3'b000;
-				regWrite <= 1'b1;
-				ALUSrc <= 1'b0;
-				memWrite <= 1'b0;
-			end	
-			`OR: begin
-				#15 regDst <= 1'b1;
-				jump <= 1'b0;
-				branch <= 1'b0;
-				memRead <= 1'b0; 
-				memToReg <= 1'b0; 
-				ALUop <= 3'b001;
-				regWrite <= 1'b1;
-				ALUSrc <= 1'b0;
-				memWrite <= 1'b0;
-			end	
-			`SLT: begin
-				#15 regDst <= 1'b1;
-				jump <= 1'b0;
-				branch <= 1'b0;
-				memRead <= 1'b0; 
-				memToReg <= 1'b0; 
-				ALUop <= 3'b111;
-				regWrite <= 1'b1;
-				ALUSrc <= 1'b0;
-				memWrite <= 1'b0;
-			end		
-			`ADDI: begin
+			end // case: endcase...
+		        `ADDIU: begin
 				#15 regDst <= 1'b0;
 				jump <= 1'b0;
 				branch <= 1'b0;
@@ -170,17 +209,7 @@ module control(opcode,
 				memWrite <= 1'b0;
 				$display("Here is a jump.");
 			end
-			`JR: begin
-				#15 regDst <= 1'bx;
-				jump <= 1'b1;
-				branch <= 1'b0;
-				memRead <= 1'b0; 
-				memToReg <= 1'b0; 
-				ALUop <= 3'bxxx;
-				regWrite <= 1'b0;
-				ALUSrc <= 1'bx;
-				memWrite <= 1'b0;
-			end
+			
        			`JAL: begin
 				#15 regDst <= 1'bx;
 				jump <= 1'b1;
