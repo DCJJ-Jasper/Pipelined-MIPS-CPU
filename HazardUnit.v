@@ -91,11 +91,11 @@ module HazardUnit(BranchD, WriteRegE, MemtoRegE, RegWriteE, WriteRegM, MemtoRegM
     always(@)
     begin      
         if (RegWriteM & (RtE == WriteRegM) & (WriteRegM != 0))
-            ForwardBE = 0;
+            ForwardBE = 10;
         else if (RegWriteW & (WriteRegW != 0) & (RtE != WriteRegM) & (RtE == WriteRegW))
-            ForwardBE = 0;
+            ForwardBE = 01;
         else
-            ForwardBE = 0;
+            ForwardBE = 00;
     end
 
 endmodule
