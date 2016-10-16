@@ -131,6 +131,18 @@ module control(opcode,
 				ALUSrc <= 1'b1;
 				memWrite <= 1'b0;
 			end // case: endcase...
+		   
+			`LUI: begin
+				#15 regDst <= 1'b0;
+				jump <= 1'b0;
+				branch <= 1'b0;
+				memRead <= 1'b0; 
+				memToReg <= 1'b0; 
+				ALUop <= 3'b011;
+				regWrite <= 1'b1;
+				ALUSrc <= 1'b1;
+				memWrite <= 1'b0;
+			end
 		        `ADDIU: begin
 				#15 regDst <= 1'b0;
 				jump <= 1'b0;
@@ -207,7 +219,7 @@ module control(opcode,
 				regWrite <= 1'b0;
 				ALUSrc <= 1'bx;
 				memWrite <= 1'b0;
-				$display("Here is a jump.");
+			//	$display("Here is a jump.");
 			end
 			
        			`JAL: begin

@@ -21,6 +21,12 @@ module alu( input [2:0] opcode, input [31:0] rs, input [31:0] rt,output [31:0] o
 	temp = rs + rt;
 	
      end
+	3'b011://lui
+     begin
+	temp = rt<<16;
+	
+
+     end
      3'b110://sub
      begin
 	temp = rs-rt;
