@@ -5,6 +5,6 @@ module mux(in1, in2, select, out);
 	input select; 
 	output [31:0] out;
 
-	assign #5 out = (select)? in1 : in2;
+	assign out = (select)? in1 : in2;
 
 endmodule

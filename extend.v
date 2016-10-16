@@ -10,7 +10,7 @@ module test();
    reg [15:0]immed = 16'h8241;
    wire [31:0] extend;
    initial begin
-      #10 immed = 16'h4241;
+     immed = 16'h4241;
       
       
    end

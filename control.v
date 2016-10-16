@@ -41,7 +41,7 @@ module control(opcode,
 		        `SPECIAL:begin
 		              case (func)
 				`ADD: begin
-				#15 regDst <= 1'b1;
+				regDst <= 1'b1;
 				   jump <= 1'b0;
 				   branch <= 1'b0;
 				   memRead <= 1'b0; 
@@ -52,7 +52,7 @@ module control(opcode,
 				   memWrite <= 1'b0;
 				end // case: `ADD
 				`ADDU: begin 
-				#15 regDst <= 1'b1;
+				regDst <= 1'b1;
 				   jump <= 1'b0;
 				   branch <= 1'b0;
 				   memRead <= 1'b0; 
@@ -63,7 +63,7 @@ module control(opcode,
 				   memWrite <= 1'b0;
 				end // case: `ADDU
 				`AND: begin
-				#15 regDst <= 1'b1;
+				regDst <= 1'b1;
 				   jump <= 1'b0;
 				   branch <= 1'b0;
 				   memRead <= 1'b0; 
@@ -74,7 +74,7 @@ module control(opcode,
 				   memWrite <= 1'b0;
 				end // case: `AND
 				`JR: begin
-				   #15 regDst <= 1'bx;
+				   regDst <= 1'bx;
 				   jump <= 1'b1;
 				   branch <= 1'b0;
 				   memRead <= 1'b0; 
@@ -85,7 +85,7 @@ module control(opcode,
 				   memWrite <= 1'b0;
 				end // case: `JR
 				`OR: begin
-				   #15 regDst <= 1'b1;
+				   regDst <= 1'b1;
 				   jump <= 1'b0;
 				   branch <= 1'b0;
 				   memRead <= 1'b0; 
@@ -97,7 +97,7 @@ module control(opcode,
 				end // case: `OR
 				
 				`SLT: begin
-				   #15 regDst <= 1'b1;
+				   regDst <= 1'b1;
 				   jump <= 1'b0;
 				   branch <= 1'b0;
 				   memRead <= 1'b0; 
@@ -108,7 +108,7 @@ module control(opcode,
 				   memWrite <= 1'b0;
 				end // case: `SLT
 				`SUB: begin
-				   #15 regDst <= 1'b1;
+				   regDst <= 1'b1;
 				   jump <= 1'b0;
 				   branch <= 1'b0;
 				   memRead <= 1'b0; 
@@ -121,7 +121,7 @@ module control(opcode,
 			      endcase 
 		        
 			`ADDI: begin
-				#15 regDst <= 1'b0;
+				regDst <= 1'b0;
 				jump <= 1'b0;
 				branch <= 1'b0;
 				memRead <= 1'b0; 
@@ -133,7 +133,7 @@ module control(opcode,
 			end // case: endcase...
 		   
 			`LUI: begin
-				#15 regDst <= 1'b0;
+				regDst <= 1'b0;
 				jump <= 1'b0;
 				branch <= 1'b0;
 				memRead <= 1'b0; 
@@ -144,7 +144,7 @@ module control(opcode,
 				memWrite <= 1'b0;
 			end
 		        `ADDIU: begin
-				#15 regDst <= 1'b0;
+				regDst <= 1'b0;
 				jump <= 1'b0;
 				branch <= 1'b0;
 				memRead <= 1'b0; 
@@ -155,7 +155,7 @@ module control(opcode,
 				memWrite <= 1'b0;
 			end	
 			`ORI: begin
-				#15 regDst <= 1'b0;
+				regDst <= 1'b0;
 				jump <= 1'b0;
 				branch <= 1'b0;
 				memRead <= 1'b0; 
@@ -166,7 +166,7 @@ module control(opcode,
 				memWrite <= 1'b0;
 			end
 			`LW: begin
-				#15 regDst <= 1'b0;
+				regDst <= 1'b0;
 				jump <= 1'b0;
 				branch <= 1'b0;
 				memRead <= 1'b1; 
@@ -177,7 +177,7 @@ module control(opcode,
 				memWrite <= 1'b0;
 			end
 			`SW: begin
-				#15 regDst <= 1'bx;
+				regDst <= 1'bx;
 				jump <= 1'b0;
 				branch <= 1'b0;
 				memRead <= 1'b0; 
@@ -188,7 +188,7 @@ module control(opcode,
 				memWrite <= 1'b1;
 			end
 			`BEQ: begin
-				#15 regDst <= 1'bx;
+				regDst <= 1'bx;
 				jump <= 1'b0;
 				branch <= 1'b1;
 				memRead <= 1'b0; 
@@ -199,7 +199,7 @@ module control(opcode,
 				memWrite <= 1'b0;
 			end
 			`BNE: begin
-				#15 regDst <= 1'bx;
+				regDst <= 1'bx;
 				jump <= 1'b0;
 				branch <= 1'b1;
 				memRead <= 1'b0; 
@@ -210,7 +210,7 @@ module control(opcode,
 				memWrite <= 1'b0;
 			end
 			`J: begin
-				#15 regDst <= 1'bx;
+				regDst <= 1'bx;
 				jump <= 1'b1;
 				branch <= 1'b0;
 				memRead <= 1'b0; 
@@ -223,7 +223,7 @@ module control(opcode,
 			end
 			
        			`JAL: begin
-				#15 regDst <= 1'bx;
+				regDst <= 1'bx;
 				jump <= 1'b1;
 				branch <= 1'b0;
 				memRead <= 1'b0; 
@@ -234,7 +234,7 @@ module control(opcode,
 				memWrite <= 1'b0;
 			end
 			default: begin
-				#15 regDst <= 1'b0;
+				regDst <= 1'b0;
 				jump <= 1'b0;
 				branch <= 1'b0;
 				memRead <= 1'b0; 
