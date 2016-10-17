@@ -5,7 +5,7 @@ module extend(input [15:0] immediate,output [31:0] extened);
 
 endmodule // extend
 
-     
+    /* 
 module test();
    reg [15:0]immed = 16'h8241;
    wire [31:0] extend;
@@ -20,4 +20,4 @@ module test();
    
 endmodule // test
 
-   
+   */

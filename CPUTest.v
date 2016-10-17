@@ -4,7 +4,7 @@ module test();
    initial begin
       
    end
-   always
+   always@(*)
      clk= ~clk;
    
 

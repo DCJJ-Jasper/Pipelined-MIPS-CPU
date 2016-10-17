@@ -52,7 +52,7 @@ module alu( input [2:0] opcode, input [31:0] rs, input [31:0] rt,output [31:0] o
    assign out = temp;
    
 endmodule
-
+/*
 module test();
    
    reg [2:0] opcode = 3'b010;
@@ -77,3 +77,4 @@ module test();
       
       
 endmodule
+*/
