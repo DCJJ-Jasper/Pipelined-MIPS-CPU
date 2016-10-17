@@ -41,7 +41,7 @@ module HazardUnit(BranchD, WriteRegE, MemtoRegE, RegWriteE, WriteRegM, MemtoRegM
     // TODO double-check the logic is correct
 
     // Control StallF, StallD & FlushE
-    always(@)
+    always@(MemtoRegE, RtE, RtD, RsD)
     begin      
         if (MemtoRegE & ((RtE == RtD)|(RtE == RsD)))   
         begin
@@ -59,7 +59,7 @@ module HazardUnit(BranchD, WriteRegE, MemtoRegE, RegWriteE, WriteRegM, MemtoRegM
     end
 
     // Control ForwardAD
-    always(@)
+    always@(RegWriteM, WriteRegM, RsD)
     begin      
         if (RegWriteM & (RsD == WriteRegM) & (RsD != 0))
             ForwardAD = 1;  
@@ -68,7 +68,7 @@ module HazardUnit(BranchD, WriteRegE, MemtoRegE, RegWriteE, WriteRegM, MemtoRegM
     end
 
     // Control ForwardBD
-    always(@)
+    always@(RegWriteM, WriteRegM, RtD)
     begin      
         if (RegWriteM & (RtD == WriteRegM) & (RtD != 0))
             ForwardBD = 1;
@@ -77,7 +77,7 @@ module HazardUnit(BranchD, WriteRegE, MemtoRegE, RegWriteE, WriteRegM, MemtoRegM
     end
 
     // Control ForwardAE
-    always(@)
+    always@(RegWriteM, WriteRegM, RegWriteW, WriteRegW, RsE)
     begin      
         if (RegWriteM & (RsE == WriteRegM) & (WriteRegM != 0))
             ForwardAE = 10;
@@ -88,7 +88,7 @@ module HazardUnit(BranchD, WriteRegE, MemtoRegE, RegWriteE, WriteRegM, MemtoRegM
     end
 
     // Control ForwardBE
-    always(@)
+    always@(RegWriteM, WriteRegM, RegWriteW, WriteRegW, RtE)
     begin      
         if (RegWriteM & (RtE == WriteRegM) & (WriteRegM != 0))
             ForwardBE = 10;
