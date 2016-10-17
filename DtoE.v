@@ -11,7 +11,6 @@ module DtoE(clk, FlushE, RegWriteD, MemtoRegD, MemWriteD, ALUControlD, ALUSrcD, 
     input [4:0] RsD;
     input [4:0] RtD;
     input [4:0] RdD;
-
     input [31:0] SignImmD;
 
     output reg RegWriteE;
@@ -23,10 +22,9 @@ module DtoE(clk, FlushE, RegWriteD, MemtoRegD, MemWriteD, ALUControlD, ALUSrcD, 
     output reg [4:0] RsE;
     output reg [4:0] RtE;
     output reg [4:0] RdE;
-
     output reg [31:0] SignImmE;
 
-    always(@posedge clk)
+    always@(posedge clk)
     begin
         if(FlushE)
         begin
@@ -39,7 +37,6 @@ module DtoE(clk, FlushE, RegWriteD, MemtoRegD, MemWriteD, ALUControlD, ALUSrcD, 
             RsE <= 0;
             RtE <= 0;
             RdE <= 0;
-
             SignImmE <= 0;
         end
         else
@@ -53,7 +50,6 @@ module DtoE(clk, FlushE, RegWriteD, MemtoRegD, MemWriteD, ALUControlD, ALUSrcD, 
             RsE <= RsD;
             RtE <= RtD;
             RdE <= RdD;
-
             SignImmE <= SignImmD;
         end
     end

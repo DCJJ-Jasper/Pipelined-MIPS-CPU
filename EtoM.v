@@ -15,8 +15,16 @@ module EtoM(clk, RegWriteE, MemtoRegE, MemWriteE, ALUInE, WriteDataE, WriteRegE,
     output reg [31:0] WriteDaraM;
     output reg [4:0] WriteRegM;
     
+    initial begin 
+        RegWriteM = 0;
+        MemtoRegM = 0;
+        MemWriteM = 0;
+        ALUOutM = 0;
+        WriteDataM = 0;
+        WriteRegM = 0;
+    end 
 
-    always(@posedge clk)
+    always@(posedge clk)
     begin      
         RegWriteM <= RegWriteE;
         MemtoRegM <= MemtoRegE;

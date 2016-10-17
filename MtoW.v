@@ -12,9 +12,16 @@ module MtoW(clk, RegWriteM, MemtoRegM, ReadDataM, ALUOutM, WriteRegM, RegWriteW,
     output reg [31:0] ReadDataW;
     output reg [31:0] ALUOutW;
     output reg [4:0] WriteRegW;
-    
 
-    always(@posedge clk)
+    initial begin 
+        RegWriteW = 0;
+        MemtoRegW = 0;
+        ReadDataW = 0;
+        ALUOutW = 0;
+        WriteRegW = 0;
+    end 
+
+    always@(posedge clk)
     begin      
         RegWriteW <= RegWriteM;
         MemtoRegW <= MemtoRegM;

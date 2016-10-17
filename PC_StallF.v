@@ -10,7 +10,7 @@ module PC_StallF(clk, StallF, PC, PCF);
         PCF = 32'h00100000; // Is it correct?
     end 
 
-    always(@posedge clk)
+    always@(posedge clk)
     begin      
         if(!StallF)
         begin

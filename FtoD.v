@@ -14,7 +14,7 @@ module FtoD(clk, StallD, PCSrcD, InstrF, PCPlus4F, InstrD, PCPlus4D);
         PCPlus4D = 32'h00100000; // Is it correct?
     end 
 
-    always(@posedge clk)
+    always@(posedge clk)
     begin      
         if(!StallD)
         begin
