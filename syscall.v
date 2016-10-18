@@ -1,12 +1,14 @@
 
 module syscall(input [31:0] registers [31:0],input [31:0] instfile [32'h00100000:32'h00100100],input sys);
+
    reg [31:0] loc = registers[4];
 	 //reg cont = 1;
 	 //string	   [800:0] printString;
    reg 	    counter = 0;
    reg 	    i;
    always begin
-   if(sys == 1)begin
+   if(sys == 1)
+   begin
       if(registers[2] == 1)begin//int
 	 $display("%d",registers[4]);
 	 

@@ -56,6 +56,10 @@ module top(input wire clk);
    alu jumpALU(3'b000,fullinstr32,pcPlus,jumpPC);//uses ALUOp of 0 for add
    //shiftleft2 sl(instruction[`target],); may have to implement? confused with wires merging top shift left 2
    mux muxBranch(pcPlus,jumpPC,Branch,branchPC);
-     endmodule // top
+
+  
+
+
+endmodule // top
 
 

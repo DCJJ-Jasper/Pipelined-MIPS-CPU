@@ -1,15 +1,15 @@
 module instruction(input [31:0] regv, input [31:0] rega, input sys, input [29:0] pc,output reg [31:0] inst);
    
-   reg [31:0] instfile [32'h00100000:32'h00100100];//32 32-bit registers
-   initial
-     begin
-	$readmemh("mem.in", instfile);
-     end
+  reg [31:0] instfile [32'h00100000:32'h00100100];//32 32-bit registers
+  initial
+  begin
+    $readmemh("mem.in", instfile);
+  end
 
-   always @(*) 
-     begin
-	inst = instfile[pc];
-     end
+  always @(*) 
+  begin
+    inst = instfile[pc];
+  end
    
    //Adding Syscall
    reg [31:0] loc;
@@ -49,6 +49,9 @@ module instruction(input [31:0] regv, input [31:0] rega, input sys, input [29:0]
    end // if (sys == 1)
    end // always begin
 endmodule // instruction
+
+
+
 /*
 module test();
    reg [29:0] pc = 32'h00100000;
