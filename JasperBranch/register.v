@@ -14,7 +14,7 @@ module register(input clk,input[4:0] register1,input[4:0] register2,input[4:0] w
         end
     end
 
-    always @(posedge clk) begin
+    always @(negedge clk) begin
         data1 = mymem[register1]; //read regester 1 to data 1
         data2 = mymem[register2]; //read register 2 to data 2
     end

@@ -9,7 +9,7 @@ module datamem(clk, MemWrite, Addr, Wdata, Rdata);
 	input [31:0] Wdata;
 	output [31:0] Rdata;
 
-	reg [31:0] mem [32'h00100000 : 32'h00100004];	
+	reg [31:0] mem [32'hFFFFFFFF : 32'hFFFFFFE0];	
 
 	initial begin
 		$readmemh("inputmem.hex", mem);
