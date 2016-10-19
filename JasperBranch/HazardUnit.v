@@ -90,9 +90,9 @@ module HazardUnit(BranchD, WriteRegE, MemtoRegE, RegWriteE, WriteRegM, MemtoRegM
     // Control ForwardBE
     always@(RegWriteM, WriteRegM, RegWriteW, WriteRegW, RtE)
     begin      
-        if (RegWriteM & (RtE == WriteRegM) & (WriteRegM != 0))
+        if (RegWriteM && (RtE == WriteRegM) && (WriteRegM != 0))
             ForwardBE = 10;
-        else if (RegWriteW & (WriteRegW != 0) & (RtE != WriteRegM) & (RtE == WriteRegW))
+        else if (RegWriteW && (WriteRegW != 0) && (RtE != WriteRegM) && (RtE == WriteRegW))
             ForwardBE = 01;
         else
             ForwardBE = 00;

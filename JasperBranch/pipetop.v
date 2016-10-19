@@ -144,7 +144,7 @@ module pipetop; //(input wire clk)
     assign ShiftBeforeADD = SignImmD << 2;
     assign PCBranchD = ShiftBeforeADD + PCPlus4D;
 
-    control theControl(InstrD[31:26], InstrD[5:0], RegDstD, Jump, BranchD, MemRead, MemToRegD, ALUControlD, RegWriteD, ALUSrcD, MemWriteD, sys, Jr, JalD);
+    control theControl(InstrD[31:26], InstrD[5:0], RegDstD, Jump, BranchD, MemRead, MemtoRegD, ALUControlD, RegWriteD, ALUSrcD, MemWriteD, sys, Jr, JalD);
 
     register theRegister(clk,InstrD[25:21], InstrD[20:16], A3, WD3, RegWriteW, data1D, data2D, regv, rega);
 
