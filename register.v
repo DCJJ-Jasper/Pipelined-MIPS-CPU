@@ -5,7 +5,7 @@ module register(input clk,input[4:0] register1,input[4:0] register2,input[4:0] w
     integer i;
 
 	assign regv = mymem[2];
-	assign regv = mymem[4];
+	assign rega = mymem[4];
 
     initial begin
         for(i=5'b0; i<5'b11111; i=i+1)begin //set mem values to 0
