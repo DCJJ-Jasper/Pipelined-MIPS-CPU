@@ -53,13 +53,13 @@ module pipetop; //(input wire clk)
 
     wire BranchD;
 
-    wirewire [4:0] WriteRegE;
-    wirewire MemtoRegE;
-    wirewire RegWriteE;
+    wire [4:0] WriteRegE;
+    wire MemtoRegE;
+    wire RegWriteE;
 
-    wirewire [4:0] WriteRegM;
-    wirewire MemtoRegM;
-    wirewire RegWriteM;
+    wire [4:0] WriteRegM;
+    wire MemtoRegM;
+    wire RegWriteM;
 
     wire [31:0] ReadDataM;
     wire [31:0] ALUOutM;
