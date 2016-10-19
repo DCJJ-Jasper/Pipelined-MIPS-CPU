@@ -169,6 +169,8 @@ module pipetop; //(input wire clk)
 
     mux muxforSrcBE( SignImmE, WriteDataE, ALUSrcE, SrcBE);
 
+	alu aluforE( ALUControlE, SrcAE, SrcBE, ALUInE);
+
     EtoM theEtoM(clk, RegWriteE, MemtoRegE, MemWriteE, ALUInE, WriteDataE, WriteRegE, PCPlus4E, JalE, RegWriteM, MemtoRegM, MemWriteM, ALUOutM, WriteDataM, WriteRegM, PCPlus4M, JalM);
 
     datamem theDataMem(clk, MemWriteM, ALUOutM, WriteDataM, ReadDataM);
