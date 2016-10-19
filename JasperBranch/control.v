@@ -256,7 +256,7 @@ module control(opcode,
 				jal <= 1'b0;
 			end
 			`SW: begin
-				regDst <= 1'bx;
+				regDst <= 1'b0;
 				jump <= 1'b0;
 				branch <= 1'b0;
 				memRead <= 1'b0; 
