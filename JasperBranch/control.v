@@ -12,7 +12,9 @@ module control(opcode,
 	regWrite,
 	ALUSrc,
 	memWrite,
-	sys
+	sys,
+	jr,
+	jal
 );
 
 	input [5:0] opcode;
@@ -27,17 +29,21 @@ module control(opcode,
 	output reg ALUSrc;
 	output reg memWrite;
 	output reg sys;
+	output reg jr;
+	output reg jal;
 	initial begin
-		regDst = 1'bx;
-		jump = 1'bx;
-		branch = 1'bx;
-		memRead = 1'bx; 
-		memToReg = 1'bx; 
+		regDst = 1'b0;
+		jump = 1'b0;
+		branch = 1'b0;
+		memRead = 1'b0; 
+		memToReg = 1'b0; 
 		ALUop = 3'bxxx;
-		regWrite = 1'bx;
-		ALUSrc = 1'bx;
-		memWrite = 1'bx;
+		regWrite = 1'b0;
+		ALUSrc = 1'b0;
+		memWrite = 1'b0;
 		sys = 1'b0;
+		jr = 1'b0;
+		jal = 1'b0;
 	end
 
 	always @(*) begin
@@ -55,6 +61,8 @@ module control(opcode,
 				   ALUSrc <= 1'b0;
 				   memWrite <= 1'b0;
 				   sys <= 1'b0;
+				   jr <= 1'b0;
+				   jal <= 1'b0;
 				end // case: `ADD
 				`ADDU: begin 
 				regDst <= 1'b1;
@@ -67,6 +75,9 @@ module control(opcode,
 				   ALUSrc <= 1'b0;
 				   memWrite <= 1'b0;
 				   sys <= 1'b0;
+				   jr <= 1'b0;
+				   jal <= 1'b0;
+
 				end // case: `ADDU
 				`AND: begin
 				regDst <= 1'b1;
@@ -79,10 +90,12 @@ module control(opcode,
 				   ALUSrc <= 1'b0;
 				   memWrite <= 1'b0;
 				   sys <= 1'b0;
+				   jr <= 1'b0;
+				   jal <= 1'b0;
 				end // case: `AND
 				`JR: begin
 				   regDst <= 1'bx;
-				   jump <= 1'b1;
+				   jump <= 1'b0;
 				   branch <= 1'b0;
 				   memRead <= 1'b0; 
 				   memToReg <= 1'b0; 
@@ -91,6 +104,8 @@ module control(opcode,
 				   ALUSrc <= 1'bx;
 				   memWrite <= 1'b0;
 				   sys <= 1'b0;
+				   jr <= 1'b1;
+				   jal <= 1'b0;
 				end // case: `JR
 				`OR: begin
 				   regDst <= 1'b1;
@@ -103,7 +118,24 @@ module control(opcode,
 				   ALUSrc <= 1'b0;
 				   memWrite <= 1'b0;
 				   sys <= 1'b0;
+				   jr <= 1'b0;
+				   jal <= 1'b0;
 				end // case: `OR
+				// TODO fix it later 
+				`SLL: begin
+				   regDst <= 1'b0;
+				   jump <= 1'b0;
+				   branch <= 1'b0;
+				   memRead <= 1'b0; 
+				   memToReg <= 1'b0; 
+				   ALUop <= 3'bxxx;
+				   regWrite <= 1'b0;
+				   ALUSrc <= 1'b0;
+				   memWrite <= 1'b0;
+				   sys <= 1'b0;
+				   jr <= 1'b0;
+				   jal <= 1'b0;
+				end // case: `SLl
 				
 				`SLT: begin
 				   regDst <= 1'b1;
@@ -116,6 +148,8 @@ module control(opcode,
 				   ALUSrc <= 1'b0;
 				   memWrite <= 1'b0;
 				   sys <= 1'b0;
+				   jr <= 1'b0;
+				   jal <= 1'b0;
 				end // case: `SLT
 				`SUB: begin
 				   regDst <= 1'b1;
@@ -128,18 +162,22 @@ module control(opcode,
 				   ALUSrc <= 1'b0;
 				   memWrite <= 1'b0;
 				   sys <= 1'b0;
+				   jr <= 1'b0;
+				   jal <= 1'b0;
 				end  
 				`SYSCALL:begin
-					regDst = 1'bx;
-					jump = 1'bx;
-					branch = 1'bx;
-					memRead = 1'bx; 
-					memToReg = 1'bx; 
-					ALUop = 3'bxxx;
-					regWrite = 1'bx;
-					ALUSrc = 1'bx;
-					memWrite = 1'bx;
+					regDst <= 1'b0;
+				   	jump <= 1'b0;
+				   	branch <= 1'b0;
+				   	memRead <= 1'b0; 
+				   	memToReg <= 1'b0; 
+				   	ALUop <= 3'bxxx;
+				   	regWrite <= 1'b0;
+				   	ALUSrc <= 1'b0;
+				   	memWrite <= 1'b0;
 				    sys <= 1'b1;
+				   jr <= 1'b0;
+				   jal <= 1'b0;
 
 				end
    
@@ -156,6 +194,8 @@ module control(opcode,
 				ALUSrc <= 1'b1;
 				memWrite <= 1'b0;
 				sys <= 1'b0;
+				jr <= 1'b0;
+				jal <= 1'b0;
 			end // case: endcase...
 		   
 			`LUI: begin
@@ -169,6 +209,8 @@ module control(opcode,
 				ALUSrc <= 1'b1;
 				memWrite <= 1'b0;
 				sys <= 1'b0;
+				jr <= 1'b0;
+				jal <= 1'b0;
 			end
 		        `ADDIU: begin
 				regDst <= 1'b0;
@@ -181,6 +223,9 @@ module control(opcode,
 				ALUSrc <= 1'b1;
 				memWrite <= 1'b0;
 				sys <= 1'b0;
+				jr <= 1'b0;
+				jal <= 1'b0;
+
 			end	
 			`ORI: begin
 				regDst <= 1'b0;
@@ -193,6 +238,8 @@ module control(opcode,
 				ALUSrc <= 1'b1;
 				memWrite <= 1'b0;
 				sys <= 1'b0;
+				jr <= 1'b0;
+				jal <= 1'b0;
 			end
 			`LW: begin
 				regDst <= 1'b0;
@@ -205,6 +252,8 @@ module control(opcode,
 				ALUSrc <= 1'b1;
 				memWrite <= 1'b0;
 				sys <= 1'b0;
+				jr <= 1'b0;
+				jal <= 1'b0;
 			end
 			`SW: begin
 				regDst <= 1'bx;
@@ -217,6 +266,8 @@ module control(opcode,
 				ALUSrc <= 1'b1;
 				memWrite <= 1'b1;
 				sys <= 1'b0;
+				jr <= 1'b0;
+				jal <= 1'b0;
 			end
 			`BEQ: begin
 				regDst <= 1'bx;
@@ -229,6 +280,8 @@ module control(opcode,
 				ALUSrc <= 1'b0;
 				memWrite <= 1'b0;
 				sys <= 1'b0;
+				jr <= 1'b0;
+				jal <= 1'b0;
 			end
 			`BNE: begin
 				regDst <= 1'bx;
@@ -241,6 +294,8 @@ module control(opcode,
 				ALUSrc <= 1'b0;
 				memWrite <= 1'b0;
 				sys <= 1'b0;
+				jr <= 1'b0;
+				jal <= 1'b0;
 			end
 			`J: begin
 				regDst <= 1'bx;
@@ -253,6 +308,8 @@ module control(opcode,
 				ALUSrc <= 1'bx;
 				memWrite <= 1'b0;
 				sys <= 1'b0;
+				jr <= 1'b0;
+				jal <= 1'b0;
 			//	$display("Here is a jump.");
 			end
 			
@@ -267,6 +324,8 @@ module control(opcode,
 				ALUSrc <= 1'bx;
 				memWrite <= 1'b0;
 				sys <= 1'b0;
+				jr <= 1'b0;
+				jal <= 1'b1;
 			end
 			default: begin
 				regDst <= 1'b0;
@@ -279,6 +338,8 @@ module control(opcode,
 				ALUSrc <= 1'b0;
 				memWrite <= 1'b0;
 				sys <= 1'b0;
+				jr <= 1'b0;
+				jal <= 1'b0;
 			end
 		endcase 
 	end

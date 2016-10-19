@@ -7,7 +7,7 @@ module PC_StallF(clk, StallF, PC, PCF);
     output reg [31:0] PCF;
 
     initial begin 
-        PCF = 32'h00100000; // Is it correct?
+        PCF = 32'h00400030; // Is it correct?
     end 
 
     always@(posedge clk)

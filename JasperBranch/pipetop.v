@@ -16,7 +16,7 @@ module pipetop; //(input wire clk)
     wire [31:0] PCPlus4D;
 
     wire [31:0] PCF;
-    wire [31:0] instrF;
+    wire [31:0] InstrF;
 
     wire RegWriteD;
     wire MemtoRegD;
@@ -53,9 +53,7 @@ module pipetop; //(input wire clk)
 
     wire BranchD;
 
-    wire [4:0] WriteRegE;
-    wire MemtoRegE;
-    wire RegWriteE;
+
 
     wire [4:0] WriteRegM;
     wire MemtoRegM;
@@ -63,7 +61,7 @@ module pipetop; //(input wire clk)
 
     wire [31:0] ReadDataM;
     wire [31:0] ALUOutM;
-    wire [4:0] WriteRegM;
+
 
     wire RegWriteW;
     wire MemtoRegW;
@@ -89,7 +87,7 @@ module pipetop; //(input wire clk)
 
     wire sys;
     wire MemRead;
-    wire BranchD;
+
     wire Jump;
 
     wire [31:0] regv;
@@ -100,67 +98,97 @@ module pipetop; //(input wire clk)
 
     wire EqualD;
     wire [31:0] JumpPc;
-    wire [31:0] PCMid;
+    wire [31:0] PCMid1;
+    wire [31:0] PCMid2;
+
+    wire Jr;
+    wire JalD;
+    wire JalE;
+    wire JalM;
+    wire JalW;
+
+    wire [31:0] PCPlus4E;
+    wire [31:0] PCPlus4M;
+    wire [31:0] PCPlus4W;
+
+    wire [31:0] WD3;
+    wire [4:0] A3;	
 
 
     // module
 
-    // modify first 3 
-    instruction instructionMem(regv, rega, sys, PCF[31:2], instrF);
+	
+    mux muxforPC(PCBranchD, PCPlus4F, PCSrcD, PCMid1);
 
-    mux muxforPC(PCBranchD, PCPlus4F, PCSrcD, PCMid);
+	// error
+    assign JumpPc = (PCPlus4D[31:28] << 28) + (InstrD[25:0] << 2);
 
-    assign JumpPc = (PCPlus4D[31:28] << 28) + (instrD[25:0] << 2);
+    mux muxforJump(JumpPc, PCMid1, Jump, PCMid2);
 
-    mux muxforJumpLog(JumpPc, PCMid, Jump, PC);
+    mux muxforJr(data1D, PCMid2, Jr, PC);
 
     PC_StallF thePCwithStallF(clk, StallF, PC, PCF);
 
-    extend theExtend(instrD[15:0], SignImmD);
+    instruction instructionMem(regv, rega, sys, PCF[31:2], InstrF);
+
+    adder add4toPCF(PCF, PCPlus4F);
+
+	// warning instrf 
+    FtoD theFtoD(clk, StallD, PCSrcD, InstrF, PCPlus4F, InstrD, PCPlus4D);
+
+    mux muxforPCPlus4W(PCPlus4W, ResultW, JalW, WD3);
+    mux5 mux5forJalW(5'b11111, WriteRegW, JalW, A3);
+
+    extend theExtend(InstrD[15:0], SignImmD);
 
     assign ShiftBeforeADD = SignImmD << 2;
     assign PCBranchD = ShiftBeforeADD + PCPlus4D;
 
-    control(InstrD[31:26], InstrD[5:0], RegDstD, Jump, BranchD, MemRead, MemToRegD, ALUControlD, RegWriteD, ALUSrcD, MemWriteD, sys);
+    control theControl(InstrD[31:26], InstrD[5:0], RegDstD, Jump, BranchD, MemRead, MemToRegD, ALUControlD, RegWriteD, ALUSrcD, MemWriteD, sys, Jr, JalD);
 
-    register theRegister(clk,InstrD[25:21], InstrD[20:16], WriteRegW, ResultW, RegWriteW, RD1, RD2, regv, rega);
+    register theRegister(clk,InstrD[25:21], InstrD[20:16], A3, WD3, RegWriteW, data1D, data2D, regv, rega);
 
     assign RsD = InstrD[25:21];
     assign RtD = InstrD[20:16];
     assign RdD = InstrD[15:11];
 
-    adder add4toPCF(PCF, PCPlus4F);
-
-    FtoD theFtoD(clk, StallD, PCSrcD, InstrF, PCPlus4F, InstrD, PCPlus4D);
-
-    register Registers(clk, rs, rt, writereg, data, regwrite, data1D, data2D, regv, rega);
-
     mux muxforRD1(ALUOutM, data1D, ForwardAD, RD1Eq);
-    mux muxforRD1(ALUOutM, data2D, ForwardBD, RD2Eq);
+    mux muxforRD2(ALUOutM, data2D, ForwardBD, RD2Eq);
 
     // If == does not work, write a small module for it
     assign EqualD = (RD1Eq == RD2Eq);
 
     assign PCSrcD = (BranchD & EqualD);
 
-    DtoE theDtoE(clk, FlushE, RegWriteD, MemtoRegD, MemWriteD, ALUControlD, ALUSrcD, RegDstD, data1D, data2D, RsD, RtD, RdD, SignImmD, RegWriteE, MemtoRegE, MemWriteE, ALUControlE, ALUSrcE, RegDstE, data1E, data2E, RsE, RtE, RdE, SignImmE); 
+    DtoE theDtoE(clk, FlushE, RegWriteD, MemtoRegD, MemWriteD, ALUControlD, ALUSrcD, RegDstD, data1D, data2D, RsD, RtD, RdD, SignImmD, PCPlus4D, JalD, RegWriteE, MemtoRegE, MemWriteE, ALUControlE, ALUSrcE, RegDstE, data1E, data2E, RsE, RtE, RdE, SignImmE, PCPlus4E, JalE);
 
-    mux5 muxForRtEandRdE(RdE, RtE, RegDstE, WriteRegE);
+    mux5 mux5ForRtEandRdE(RdE, RtE, RegDstE, WriteRegE);
 
     mux2bit muxfordata1E(data1E, ResultW, ALUOutM, ForwardAE, SrcAE);
     mux2bit muxfordata2E(data2E, ResultW, ALUOutM, ForwardBE, WriteDataE);
 
     mux muxforSrcBE( SignImmE, WriteDataE, ALUSrcE, SrcBE);
 
-    EtoM theEtoM(clk, RegWriteE, MemtoRegE, MemWriteE, ALUInE, WriteDataE, WriteRegE, RegWriteM, MemtoRegM, MemWriteM, ALUOutM, WriteDataM, WriteRegM); 
+    EtoM theEtoM(clk, RegWriteE, MemtoRegE, MemWriteE, ALUInE, WriteDataE, WriteRegE, PCPlus4E, JalE, RegWriteM, MemtoRegM, MemWriteM, ALUOutM, WriteDataM, WriteRegM, PCPlus4M, JalM);
 
     datamem theDataMem(clk, MemWriteM, ALUOutM, WriteDataM, ReadDataM);
 
-    MtoW theMtoW(clk, RegWriteM, MemtoRegM, ReadDataM, ALUOutM, WriteRegM, RegWriteW, MemtoRegW, ReadDataW, ALUOutW, WriteRegW); 
+    MtoW theMtoW(clk, RegWriteM, MemtoRegM, ReadDataM, ALUOutM, WriteRegM, PCPlus4M, JalM, RegWriteW, MemtoRegW, ReadDataW, ALUOutW, WriteRegW, PCPlus4W, JalW); 
 
     mux muxforMemtoReg(ReadDataW, ALUOutW, MemtoRegW, ResultW);
 
     HazardUnit theHazardUnit(BranchD, WriteRegE, MemtoRegE, RegWriteE, WriteRegM, MemtoRegM, RegWriteM, WriteRegW, RegWriteW, RsD, RtD, RsE, RtE, StallF, StallD, FlushE, ForwardAD, ForwardBD, ForwardAE, ForwardBE); 
+
+    always begin
+        #50 clk = ~clk;
+    end
+
+    initial begin
+        clk = 0;
+
+		$dumpfile("test.vcd");
+    	$dumpvars(0,pipetop);
+    end
 
 endmodule // top
 
