@@ -1,16 +1,15 @@
 
 
 
-module datamem(clk,MemWrite,MemRead,Addr,Wdata,Rdata);
+module datamem(clk, MemWrite, Addr, Wdata, Rdata);
 
 	input clk;
 	input [31:0] Addr;
 	input MemWrite;
-	input MemRead;
 	input [31:0] Wdata;
-	output reg [31:0] Rdata;
+	output [31:0] Rdata;
 
-	reg [31:0] mem [32'h00100000 : 32'h00100005];	
+	reg [31:0] mem [32'h00100000 : 32'h00100004];	
 
 	initial begin
 		$readmemh("inputmem.hex", mem);
@@ -26,10 +25,9 @@ module datamem(clk,MemWrite,MemRead,Addr,Wdata,Rdata);
 			// Perhaps, need to change later
 			$writememh("inputmem.hex", mem);
 		end
-
-		if(MemRead)
-			Rdata = mem[Addr];
 	end
+
+	assign Rdata = mem[Addr];
 
 
 endmodule
