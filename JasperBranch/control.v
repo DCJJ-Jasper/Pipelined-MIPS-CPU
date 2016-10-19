@@ -314,13 +314,13 @@ module control(opcode,
 			end
 			
        			`JAL: begin
-				regDst <= 1'bx;
+				regDst <= 1'b1;
 				jump <= 1'b1;
 				branch <= 1'b0;
 				memRead <= 1'b0; 
 				memToReg <= 1'b0; 
 				ALUop <= 3'bxxx;
-				regWrite <= 1'b0;
+				regWrite <= 1'b1;
 				ALUSrc <= 1'bx;
 				memWrite <= 1'b0;
 				sys <= 1'b0;
