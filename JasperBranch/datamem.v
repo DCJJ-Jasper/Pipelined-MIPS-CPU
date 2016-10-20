@@ -37,7 +37,7 @@ module datamem(clk, MemWrite, Addr, Wdata, Rdata);
 			// Perhaps, need to change later
 			// $writememh("inputmem.hex", mem);
 
-			$display("double check mem[addr]: %0x", mem[Addr]);
+			//$display("double check mem[addr]: %0x", mem[Addr]);
 		end
 	end
 
