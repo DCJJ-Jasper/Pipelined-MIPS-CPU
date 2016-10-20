@@ -15,17 +15,21 @@ module register(input clk,input[4:0] register1,input[4:0] register2,input[4:0] w
     end
 
     always @(negedge clk) begin
+		if(regWrite == 1)//if write is on write to writeregister
+        begin
+            mymem[writeregister]=data;
+        end
         data1 = mymem[register1]; //read regester 1 to data 1
         data2 = mymem[register2]; //read register 2 to data 2
     end
-   
+   /*
     always @(posedge clk) //when the control goes on it knows to write
     begin
         if(regWrite == 1)//if write is on write to writeregister
         begin
-            mymem[writeregister]=data;
+            mymem[writeregister]<=data;
         end
     end
-
+*/
 endmodule // register
 
