@@ -1,4 +1,4 @@
-module DtoE(clk, FlushE, RegWriteD, MemtoRegD, MemWriteD, ALUControlD, ALUSrcD, RegDstD, data1D, data2D, RsD, RtD, RdD, SignImmD, PCPlus4D, JalD, RegWriteE, MemtoRegE, MemWriteE, ALUControlE, ALUSrcE, RegDstE, data1E, data2E, RsE, RtE, RdE, SignImmE, PCPlus4E, JalE); 
+module DtoE(clk, FlushE, RegWriteD, MemtoRegD, MemWriteD, ALUControlD, ALUSrcD, RegDstD, data1D, data2D, RsD, RtD, RdD, SignImmD, PCPlus4D, JalD, sysD, regvD, regaD, RegWriteE, MemtoRegE, MemWriteE, ALUControlE, ALUSrcE, RegDstE, data1E, data2E, RsE, RtE, RdE, SignImmE, PCPlus4E, JalE, sysE, regvE, regaE); 
 
     input clk;
     input FlushE;
@@ -16,7 +16,9 @@ module DtoE(clk, FlushE, RegWriteD, MemtoRegD, MemWriteD, ALUControlD, ALUSrcD, 
     input [31:0] SignImmD;
     input [31:0] PCPlus4D;
     input JalD;
-
+    input [31:0] regvD;
+    input [31:0] regaD;
+    input sysD;
 
     output reg RegWriteE;
     output reg MemtoRegE;
@@ -32,6 +34,9 @@ module DtoE(clk, FlushE, RegWriteD, MemtoRegD, MemWriteD, ALUControlD, ALUSrcD, 
     output reg [31:0] SignImmE;
     output reg [31:0] PCPlus4E;
     output reg JalE;
+    output reg [31:0] regvE;
+    output reg [31:0] regaE;
+    output reg sysE;
 
     always@(posedge clk)
     begin
@@ -51,6 +56,9 @@ module DtoE(clk, FlushE, RegWriteD, MemtoRegD, MemWriteD, ALUControlD, ALUSrcD, 
             SignImmE <= 0;
             PCPlus4E <= 0;
             JalE <= 0;
+			regvE <= 0;
+            regaE <= 0;
+            sysE <= 0;
         end
         else
         begin
@@ -68,6 +76,9 @@ module DtoE(clk, FlushE, RegWriteD, MemtoRegD, MemWriteD, ALUControlD, ALUSrcD, 
             SignImmE <= SignImmD;
             PCPlus4E <= PCPlus4D;
             JalE <= JalD;
+			regvE <= regvD;
+            regaE <= regaD;
+            sysE <= sysD;
         end
     end
 endmodule
