@@ -1,0 +1,13 @@
+adder.v
+alu.v
+control.v
+CPUTest.v
+datamem.v
+extend.v
+instruction.v
+mux.v
+mux5.v
+pc.v
+register.v
+shiftleft2.v
+top.v
