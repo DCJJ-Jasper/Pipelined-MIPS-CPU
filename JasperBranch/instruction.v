@@ -27,14 +27,13 @@ module instruction(input [31:0] regv, input [31:0] rega, input sys, input [29:0]
             end
 
             if(regv == 4) begin//string
-                loc = rega;
+                loc = rega>>2;
 	 
                 while(instfile[loc] != 0) begin
                     //for(i=0; i<4; i = i+1)begin
                     //printString.putc(counter,instfile[loc][(8*(i+1)-1):(i*8)]);
                     //counter = counter + 1;
                     //end
-
                     $write("%s%s%s%s",instfile[loc][7:0],instfile[loc][15:8],instfile[loc][23:16],instfile[loc][31:24]);
                     loc = loc + 1;
                 end
@@ -55,8 +54,8 @@ module instruction(input [31:0] regv, input [31:0] rega, input sys, input [29:0]
 endmodule // instruction
 
 
-
 /*
+
 module test();
    reg [29:0] pc = 32'h00100000;
    wire [31:0] inst;

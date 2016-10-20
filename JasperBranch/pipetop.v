@@ -139,7 +139,7 @@ module pipetop; //(input wire clk)
 
     PC_StallF thePCwithStallF(clk, StallF, PC, PCF);
 
-    instruction instructionMem(regvW, regaW, sysW, PCF[31:2], InstrF);
+    instruction instructionMem(regvD, regaD, sysW, PCF[31:2], InstrF);
 
     adder add4toPCF(PCF, PCPlus4F);
 
