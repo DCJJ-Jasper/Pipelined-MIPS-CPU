@@ -1,9 +1,11 @@
+// Adder module
+// This module adds 4 to the input PC address.
 
-module adder(pc_out, pc_in);
+module adder(addr_in, addr_out);
 
-	input [31:0] pc_out; 
-	output [31:0] pc_in;
+	input [31:0] addr_in; 
+	output [31:0] addr_out;
 
-	assign pc_in = pc_out + 4;
+	assign addr_out = addr_in + 4;
 
 endmodule

@@ -1,5 +1,13 @@
-module shiftleft2(input [25:0] instr,output [27:0] newinstr);
-   assign newinstr = instr*4;
+
+
+
+
+module shiftleft2(instr, newinstr);
+
+	input [25:0] instr;
+	output [27:0] newinstr;
+
+	assign newinstr = instr*4;
 
 endmodule // extend
 

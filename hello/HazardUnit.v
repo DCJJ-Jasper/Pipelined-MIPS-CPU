@@ -1,6 +1,5 @@
 module HazardUnit(BranchD, WriteRegE, MemtoRegE, RegWriteE, WriteRegM, MemtoRegM, RegWriteM, WriteRegW, RegWriteW, RsD, RtD, RsE, RtE, StallF, StallD, FlushE, ForwardAD, ForwardBD, ForwardAE, ForwardBE); 
 
-    // BranchD is not used recently, fix it somehow
     input BranchD;
 
     input [4:0] WriteRegE;
@@ -31,14 +30,11 @@ module HazardUnit(BranchD, WriteRegE, MemtoRegE, RegWriteE, WriteRegM, MemtoRegM
         StallF = 0;
         StallD = 0;
         FlushE = 0;
-        // Does this way of initializing the values of forwarding hurts?
         ForwardAD = 0; 
         ForwardBD = 0;
         ForwardAE = 0;
         ForwardBE = 0;
     end 
-
-    // TODO double-check the logic is correct
 
     // Control StallF, StallD & FlushE
     always@(MemtoRegE, RtE, RtD, RsD)
