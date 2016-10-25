@@ -1,7 +1,7 @@
 `timescale 1ns/1ns
 `include "mips.h"
 
-module pipetop; //(input wire clk)
+module pipetop; 
 
 
     // wire
@@ -143,7 +143,6 @@ module pipetop; //(input wire clk)
 
     adder add4toPCF(PCF, PCPlus4F);
 
-	// warning instrf 
     FtoD theFtoD(clk, StallD, PCSrcD, InstrF, PCPlus4F, InstrD, PCPlus4D);
 
     mux muxforPCPlus4W(PCPlus4W, ResultW, JalW, WD3);

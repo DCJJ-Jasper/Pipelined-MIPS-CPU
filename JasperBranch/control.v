@@ -1,3 +1,5 @@
+// Control module
+
 `include "mips.h"
 `timescale 1ns/1ns
 
@@ -31,6 +33,8 @@ module control(opcode,
 	output reg sys;
 	output reg jr;
 	output reg jal;
+
+	// Initialization
 	initial begin
 		regDst = 1'b0;
 		jump = 1'b0;
@@ -48,141 +52,146 @@ module control(opcode,
 
 	always @(*) begin
 		case (opcode)
-		        `SPECIAL:begin
-		              case (func)
-				`ADD: begin
-				regDst <= 1'b1;
-				   jump <= 1'b0;
-				   branch <= 1'b0;
-				   memRead <= 1'b0; 
-				   memToReg <= 1'b0; 
-				   ALUop <= 3'b010;
-				   regWrite <= 1'b1;
-				   ALUSrc <= 1'b0;
-				   memWrite <= 1'b0;
-				   sys <= 1'b0;
-				   jr <= 1'b0;
-				   jal <= 1'b0;
-				end // case: `ADD
-				`ADDU: begin 
-				regDst <= 1'b1;
-				   jump <= 1'b0;
-				   branch <= 1'b0;
-				   memRead <= 1'b0; 
-				   memToReg <= 1'b0; 
-				   ALUop <= 3'b010;
-				   regWrite <= 1'b1;
-				   ALUSrc <= 1'b0;
-				   memWrite <= 1'b0;
-				   sys <= 1'b0;
-				   jr <= 1'b0;
-				   jal <= 1'b0;
+	        `SPECIAL: begin
+	            case (func)
+					`ADD: begin
+					regDst <= 1'b1;
+					   jump <= 1'b0;
+					   branch <= 1'b0;
+					   memRead <= 1'b0; 
+					   memToReg <= 1'b0; 
+					   ALUop <= 3'b010;
+					   regWrite <= 1'b1;
+					   ALUSrc <= 1'b0;
+					   memWrite <= 1'b0;
+					   sys <= 1'b0;
+					   jr <= 1'b0;
+					   jal <= 1'b0;
+					end 			// case: `ADD
 
-				end // case: `ADDU
-				`AND: begin
-				regDst <= 1'b1;
-				   jump <= 1'b0;
-				   branch <= 1'b0;
-				   memRead <= 1'b0; 
-				   memToReg <= 1'b0; 
-				   ALUop <= 3'b000;
-				   regWrite <= 1'b1;
-				   ALUSrc <= 1'b0;
-				   memWrite <= 1'b0;
-				   sys <= 1'b0;
-				   jr <= 1'b0;
-				   jal <= 1'b0;
-				end // case: `AND
-				`JR: begin
-				   regDst <= 1'bx;
-				   jump <= 1'b0;
-				   branch <= 1'b0;
-				   memRead <= 1'b0; 
-				   memToReg <= 1'b0; 
-				   ALUop <= 3'bxxx;
-				   regWrite <= 1'b0;
-				   ALUSrc <= 1'bx;
-				   memWrite <= 1'b0;
-				   sys <= 1'b0;
-				   jr <= 1'b1;
-				   jal <= 1'b0;
-				end // case: `JR
-				`OR: begin
-				   regDst <= 1'b1;
-				   jump <= 1'b0;
-				   branch <= 1'b0;
-				   memRead <= 1'b0; 
-				   memToReg <= 1'b0; 
-				   ALUop <= 3'b001;
-				   regWrite <= 1'b1;
-				   ALUSrc <= 1'b0;
-				   memWrite <= 1'b0;
-				   sys <= 1'b0;
-				   jr <= 1'b0;
-				   jal <= 1'b0;
-				end // case: `OR
-				// TODO fix it later 
-				`SLL: begin
-				   regDst <= 1'b0;
-				   jump <= 1'b0;
-				   branch <= 1'b0;
-				   memRead <= 1'b0; 
-				   memToReg <= 1'b0; 
-				   ALUop <= 3'bxxx;
-				   regWrite <= 1'b0;
-				   ALUSrc <= 1'b0;
-				   memWrite <= 1'b0;
-				   sys <= 1'b0;
-				   jr <= 1'b0;
-				   jal <= 1'b0;
-				end // case: `SLl
-				
-				`SLT: begin
-				   regDst <= 1'b1;
-				   jump <= 1'b0;
-				   branch <= 1'b0;
-				   memRead <= 1'b0; 
-				   memToReg <= 1'b0; 
-				   ALUop <= 3'b111;
-				   regWrite <= 1'b1;
-				   ALUSrc <= 1'b0;
-				   memWrite <= 1'b0;
-				   sys <= 1'b0;
-				   jr <= 1'b0;
-				   jal <= 1'b0;
-				end // case: `SLT
-				`SUB: begin
-				   regDst <= 1'b1;
-				   jump <= 1'b0;
-				   branch <= 1'b0;
-				   memRead <= 1'b0; 
-				   memToReg <= 1'b0; 
-				   ALUop <= 3'b110;
-				   regWrite <= 1'b1;
-				   ALUSrc <= 1'b0;
-				   memWrite <= 1'b0;
-				   sys <= 1'b0;
-				   jr <= 1'b0;
-				   jal <= 1'b0;
-				end  
-				`SYSCALL:begin
-					regDst <= 1'b0;
-				   	jump <= 1'b0;
-				   	branch <= 1'b0;
-				   	memRead <= 1'b0; 
-				   	memToReg <= 1'b0; 
-				   	ALUop <= 3'bxxx;
-				   	regWrite <= 1'b0;
-				   	ALUSrc <= 1'b0;
-				   	memWrite <= 1'b0;
-				    sys <= 1'b1;
-				   jr <= 1'b0;
-				   jal <= 1'b0;
+					`ADDU: begin 
+					regDst <= 1'b1;
+					   jump <= 1'b0;
+					   branch <= 1'b0;
+					   memRead <= 1'b0; 
+					   memToReg <= 1'b0; 
+					   ALUop <= 3'b010;
+					   regWrite <= 1'b1;
+					   ALUSrc <= 1'b0;
+					   memWrite <= 1'b0;
+					   sys <= 1'b0;
+					   jr <= 1'b0;
+					   jal <= 1'b0;
+					end 			// case: `ADDU
 
-				end
-   
-			endcase 
-		    end    
+					`AND: begin
+					regDst <= 1'b1;
+					   jump <= 1'b0;
+					   branch <= 1'b0;
+					   memRead <= 1'b0; 
+					   memToReg <= 1'b0; 
+					   ALUop <= 3'b000;
+					   regWrite <= 1'b1;
+					   ALUSrc <= 1'b0;
+					   memWrite <= 1'b0;
+					   sys <= 1'b0;
+					   jr <= 1'b0;
+					   jal <= 1'b0;
+					end 			// case: `AND
+
+					`JR: begin
+					   regDst <= 1'bx;
+					   jump <= 1'b0;
+					   branch <= 1'b0;
+					   memRead <= 1'b0; 
+					   memToReg <= 1'b0; 
+					   ALUop <= 3'bxxx;
+					   regWrite <= 1'b0;
+					   ALUSrc <= 1'bx;
+					   memWrite <= 1'b0;
+					   sys <= 1'b0;
+					   jr <= 1'b1;
+					   jal <= 1'b0;
+					end 			// case: `JR
+
+					`OR: begin
+					   regDst <= 1'b1;
+					   jump <= 1'b0;
+					   branch <= 1'b0;
+					   memRead <= 1'b0; 
+					   memToReg <= 1'b0; 
+					   ALUop <= 3'b001;
+					   regWrite <= 1'b1;
+					   ALUSrc <= 1'b0;
+					   memWrite <= 1'b0;
+					   sys <= 1'b0;
+					   jr <= 1'b0;
+					   jal <= 1'b0;
+					end 			// case: `OR
+
+					`SLL: begin
+					   regDst <= 1'b0;
+					   jump <= 1'b0;
+					   branch <= 1'b0;
+					   memRead <= 1'b0; 
+					   memToReg <= 1'b0; 
+					   ALUop <= 3'bxxx;
+					   regWrite <= 1'b0;
+					   ALUSrc <= 1'b0;
+					   memWrite <= 1'b0;
+					   sys <= 1'b0;
+					   jr <= 1'b0;
+					   jal <= 1'b0;
+					end 			// case: `SLl
+					
+					`SLT: begin
+					   regDst <= 1'b1;
+					   jump <= 1'b0;
+					   branch <= 1'b0;
+					   memRead <= 1'b0; 
+					   memToReg <= 1'b0; 
+					   ALUop <= 3'b111;
+					   regWrite <= 1'b1;
+					   ALUSrc <= 1'b0;
+					   memWrite <= 1'b0;
+					   sys <= 1'b0;
+					   jr <= 1'b0;
+					   jal <= 1'b0;
+					end 			// case: `SLT
+
+					`SUB: begin
+					   regDst <= 1'b1;
+					   jump <= 1'b0;
+					   branch <= 1'b0;
+					   memRead <= 1'b0; 
+					   memToReg <= 1'b0; 
+					   ALUop <= 3'b110;
+					   regWrite <= 1'b1;
+					   ALUSrc <= 1'b0;
+					   memWrite <= 1'b0;
+					   sys <= 1'b0;
+					   jr <= 1'b0;
+					   jal <= 1'b0;
+					end  
+
+					`SYSCALL: begin
+						regDst <= 1'b0;
+					   	jump <= 1'b0;
+					   	branch <= 1'b0;
+					   	memRead <= 1'b0; 
+					   	memToReg <= 1'b0; 
+					   	ALUop <= 3'bxxx;
+					   	regWrite <= 1'b0;
+					   	ALUSrc <= 1'b0;
+					   	memWrite <= 1'b0;
+					    sys <= 1'b1;
+					   jr <= 1'b0;
+					   jal <= 1'b0;
+					end
+	   
+				endcase 
+		    end 					// end for SPECIAL
+
 			`ADDI: begin
 				regDst <= 1'b0;
 				jump <= 1'b0;
@@ -196,7 +205,7 @@ module control(opcode,
 				sys <= 1'b0;
 				jr <= 1'b0;
 				jal <= 1'b0;
-			end // case: endcase...
+			end 		
 		   
 			`LUI: begin
 				regDst <= 1'b0;
@@ -212,7 +221,8 @@ module control(opcode,
 				jr <= 1'b0;
 				jal <= 1'b0;
 			end
-		        `ADDIU: begin
+
+		    `ADDIU: begin
 				regDst <= 1'b0;
 				jump <= 1'b0;
 				branch <= 1'b0;
@@ -225,8 +235,8 @@ module control(opcode,
 				sys <= 1'b0;
 				jr <= 1'b0;
 				jal <= 1'b0;
-
 			end	
+
 			`ORI: begin
 				regDst <= 1'b0;
 				jump <= 1'b0;
@@ -241,6 +251,7 @@ module control(opcode,
 				jr <= 1'b0;
 				jal <= 1'b0;
 			end
+
 			`LW: begin
 				regDst <= 1'b0;
 				jump <= 1'b0;
@@ -255,6 +266,7 @@ module control(opcode,
 				jr <= 1'b0;
 				jal <= 1'b0;
 			end
+
 			`SW: begin
 				regDst <= 1'b0;
 				jump <= 1'b0;
@@ -269,6 +281,7 @@ module control(opcode,
 				jr <= 1'b0;
 				jal <= 1'b0;
 			end
+
 			`BEQ: begin
 				regDst <= 1'bx;
 				jump <= 1'b0;
@@ -283,6 +296,7 @@ module control(opcode,
 				jr <= 1'b0;
 				jal <= 1'b0;
 			end
+
 			`BNE: begin
 				regDst <= 1'bx;
 				jump <= 1'b0;
@@ -297,6 +311,7 @@ module control(opcode,
 				jr <= 1'b0;
 				jal <= 1'b0;
 			end
+
 			`J: begin
 				regDst <= 1'bx;
 				jump <= 1'b1;
@@ -310,10 +325,9 @@ module control(opcode,
 				sys <= 1'b0;
 				jr <= 1'b0;
 				jal <= 1'b0;
-			//	$display("Here is a jump.");
 			end
 			
-       			`JAL: begin
+       		`JAL: begin
 				regDst <= 1'b1;
 				jump <= 1'b1;
 				branch <= 1'b0;
@@ -327,6 +341,7 @@ module control(opcode,
 				jr <= 1'b0;
 				jal <= 1'b1;
 			end
+
 			default: begin
 				regDst <= 1'b0;
 				jump <= 1'b0;
