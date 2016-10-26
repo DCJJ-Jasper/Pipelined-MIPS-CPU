@@ -1,3 +1,4 @@
+//Takes in all values leaving the execute stage, stores them for clock cycle, and then outputs them in the next cycle.
 module EtoM(clk, RegWriteE, MemtoRegE, MemWriteE, ALUInE, WriteDataE, WriteRegE, PCPlus4E, JalE, sysE, regvE, regaE, RegWriteM, MemtoRegM, MemWriteM, ALUOutM, WriteDataM, WriteRegM, PCPlus4M, JalM, sysM, regvM, regaM); 
 
     input clk;

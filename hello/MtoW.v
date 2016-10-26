@@ -1,3 +1,4 @@
+//Stores all values coming out of the Memory stage and outputs them on the next tick of the clock to the writeback stage
 module MtoW(clk, RegWriteM, MemtoRegM, ReadDataM, ALUOutM, WriteRegM, PCPlus4M, JalM, sysM, regvM, regaM, RegWriteW, MemtoRegW, ReadDataW, ALUOutW, WriteRegW, PCPlus4W, JalW, sysW, regvW, regaW); 
 
     input clk;

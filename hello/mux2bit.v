@@ -1,3 +1,4 @@
+//This is a multiplexer with 3 possible values, the control signal (select) dictates which value the output is set to
 module mux2bit(in1, in2, in3, select, out);
 
 	input [31:0] in1;

@@ -1,3 +1,5 @@
+//The hazard unit handles many different signals. It takes in the registers that are to be written to at stages Execution, Memory, and Write as well input signals regarding writing wrtiging data from memory. The registers used in the decode stage as sources are also inputs for the hazard unit.
+//The hazard unit outputs 7 different wires, these regard stalling at if there are any data hazards which can be identified with the inputs. If it is possible to forward, the hazard units has logic to output to the multiplexers that the forwarded value should be used for a given cycle.
 module HazardUnit(BranchD, WriteRegE, MemtoRegE, RegWriteE, WriteRegM, MemtoRegM, RegWriteM, WriteRegW, RegWriteW, RsD, RtD, RsE, RtE, StallF, StallD, FlushE, ForwardAD, ForwardBD, ForwardAE, ForwardBE); 
 
     input BranchD;

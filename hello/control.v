@@ -1,5 +1,5 @@
 // Control module
-
+// The control module takes in the opcode and function code for every instruction. Many wires are output, the majority being simple 1-bit wires. the alu code is longer because it specifies what operation to form. These signals are what control the flow of our processor defining the behavior. The signals incorporate jump logic, changing memory, register reading and writing, and system calls. Case statements are used identify the type of instruction.
 `include "mips.h"
 `timescale 1ns/1ns
 

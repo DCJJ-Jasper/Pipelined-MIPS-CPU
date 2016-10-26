@@ -1,4 +1,5 @@
-module PC_StallF(clk, StallF, PC, PCF); 
+//register that handles stalling, program count is stored and the future program count is only assigned if there is no stall active
+ module PC_StallF(clk, StallF, PC, PCF); 
 
     input clk;
     input StallF;

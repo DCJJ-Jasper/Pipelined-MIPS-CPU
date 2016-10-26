@@ -1,5 +1,5 @@
 // ALU module
-// 
+// The alu takes in the 3 bit opcode, rs value, rt value, and outputs a single 32 bit value. Alu has a case statement that takes in the opcode and depending on the opcode value a different operation is performed on the two value registers.
 
 module alu(opcode, rs, rt, out);
 
@@ -11,7 +11,6 @@ module alu(opcode, rs, rt, out);
     reg [31:0] temp;
 
     always@(*) begin
-      
         case(opcode)    //STARTCASE
             3'b000:     //and
             begin

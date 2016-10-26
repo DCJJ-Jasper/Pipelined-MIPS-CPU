@@ -1,3 +1,4 @@
+//Fetch to Decode register, holds all values comming out of fetch stages and outputs them to decode stage on tick of clock
 module FtoD(clk, StallD, PCSrcD, InstrF, PCPlus4F, InstrD, PCPlus4D); 
 
     input clk;

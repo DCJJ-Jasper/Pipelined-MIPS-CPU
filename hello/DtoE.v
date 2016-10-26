@@ -1,3 +1,4 @@
+//Stores values coming out of decode and then outputs them on the edge of the next clock cycle
 module DtoE(clk, FlushE, RegWriteD, MemtoRegD, MemWriteD, ALUControlD, ALUSrcD, RegDstD, data1D, data2D, RsD, RtD, RdD, SignImmD, PCPlus4D, JalD, sysD, regvD, regaD, RegWriteE, MemtoRegE, MemWriteE, ALUControlE, ALUSrcE, RegDstE, data1E, data2E, RsE, RtE, RdE, SignImmE, PCPlus4E, JalE, sysE, regvE, regaE); 
 
     input clk;

@@ -1,4 +1,4 @@
-
+//Data memory takes in the clock, MemWrite signal, 32 bit Address, as well as Wdada and Rdata signals as input. At every signal from the clock the write signal is checked and if it is a write, the specific address is assigned to the data value. 
 
 
 module datamem(clk, MemWrite, Addr, Wdata, Rdata);
