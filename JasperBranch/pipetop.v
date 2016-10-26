@@ -26,6 +26,8 @@ module pipetop;
     wire MemWriteD;
     wire MemWriteSBD;
     wire [2:0] ALUControlD;
+    wire divD;
+    wire [1:0] mfD;
     wire [1:0] ShiftD;
     wire ALUSrcD;
     wire RegDstD;
@@ -42,6 +44,8 @@ module pipetop;
     wire MemWriteE;
     wire MemWriteSBE;
     wire [2:0] ALUControlE;
+    wire divE;
+    wire [1:0] mfE;
     wire [1:0] ShiftE;
     wire ALUSrcE;
     wire RegDstE;
@@ -58,6 +62,8 @@ module pipetop;
 	wire [31:0] sra;
     wire [31:0] ALUInE;
 	wire [31:0] ALUOutE;
+	wire [31:0] ALUOutMidE;
+	wire [31:0] HLOut;
     wire [31:0] WriteDataE;
     wire [4:0] WriteRegE;
 
@@ -172,7 +178,7 @@ module pipetop;
     assign ShiftBeforeADD = SignImmD << 2;
     assign PCBranchD = ShiftBeforeADD + PCPlus4D;
 
-    control theControl(InstrD[31:26], InstrD[5:0], RegDstD, Jump, BranchD,NotBranchD, BranchLTD,MemRead, MemtoRegD, ShiftD, ALUControlD, RegWriteD, ALUSrcD, MemWriteD,MemWriteSBD, sysD, Jr, JalD);
+    control theControl(InstrD[31:26], InstrD[5:0], RegDstD, Jump, BranchD,NotBranchD, BranchLTD,MemRead, MemtoRegD, ShiftD, divD, mfD, ALUControlD, RegWriteD, ALUSrcD, MemWriteD,MemWriteSBD, sysD, Jr, JalD);
 
     register theRegister(clk,InstrD[25:21], InstrD[20:16], A3, WD3, RegWriteW, data1D, data2D, regvD, regaD);
 
@@ -194,7 +200,7 @@ module pipetop;
    
     assign PCSrcD = (NotBranch | Branch |BranchLT);
    
-    DtoE theDtoE(clk, FlushE, RegWriteD, MemtoRegD, MemWriteD, MemWriteSBD, ShiftD, ALUControlD, ALUSrcD, RegDstD, data1D, data2D, RsD, RtD, RdD, shamtD, SignImmD, PCPlus4D, JalD,sysD,regvD,regaD, RegWriteE, MemtoRegE, MemWriteE, MemWriteSBE, ShiftE, ALUControlE, ALUSrcE, RegDstE, data1E, data2E, RsE, RtE, RdE, shamtE, SignImmE, PCPlus4E, JalE,sysE,regvE,regaE);
+    DtoE theDtoE(clk, FlushE, RegWriteD, MemtoRegD, MemWriteD, MemWriteSBD, ShiftD, divD, mfD, ALUControlD, ALUSrcD, RegDstD, data1D, data2D, RsD, RtD, RdD, shamtD, SignImmD, PCPlus4D, JalD,sysD,regvD,regaD, RegWriteE, MemtoRegE, MemWriteE, MemWriteSBE, ShiftE, divE, mfE, ALUControlE, ALUSrcE, RegDstE, data1E, data2E, RsE, RtE, RdE, shamtE, SignImmE, PCPlus4E, JalE,sysE,regvE,regaE);
 
     mux5 mux5ForRtEandRdE(RdE, RtE, RegDstE, WriteRegE);
 
@@ -205,10 +211,14 @@ module pipetop;
 
 	alu aluforE( ALUControlE, SrcAE, SrcBE, ALUOutE);
 
+	HiAndLo HiAndLoforE(SrcAE, SrcBE, divE, mfE, HLOut);
+
+	mux muxforHL(HLOut, ALUOutE, mfE[1], ALUOutMidE);
+
 	assign sra = SrcBE >> shamtE;
 	assign sll = SrcBE << shamtE;
 	
-	mux2bit muxforShift(ALUOutE, sra, sll, ShiftE, ALUInE);
+	mux2bit muxforShift(ALUOutMidE, sra, sll, ShiftE, ALUInE);
 
 
     EtoM theEtoM(clk, RegWriteE, MemtoRegE, MemWriteE, MemWriteSBE, ALUInE, WriteDataE, WriteRegE, PCPlus4E, JalE, sysE, regvE, regaE, RegWriteM, MemtoRegM, MemWriteM, MemWriteSBM, ALUOutM, WriteDataM, WriteRegM, PCPlus4M, JalM, sysM, regvM, regaM);
