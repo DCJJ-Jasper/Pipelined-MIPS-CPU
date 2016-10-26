@@ -1,6 +1,8 @@
-module HazardUnit(BranchD, WriteRegE, MemtoRegE, RegWriteE, WriteRegM, MemtoRegM, RegWriteM, WriteRegW, RegWriteW, RsD, RtD, RsE, RtE, StallF, StallD, FlushE, ForwardAD, ForwardBD, ForwardAE, ForwardBE); 
+module HazardUnit(BranchD, NotBranchD, BranchLTD, WriteRegE, MemtoRegE, RegWriteE, WriteRegM, MemtoRegM, RegWriteM, WriteRegW, RegWriteW, RsD, RtD, RsE, RtE, StallF, StallD, FlushE, ForwardAD, ForwardBD, ForwardAE, ForwardBE); 
 
     input BranchD;
+    input NotBranchD;
+    input BranchLTD;
 
     input [4:0] WriteRegE;
     input MemtoRegE;
@@ -25,6 +27,10 @@ module HazardUnit(BranchD, WriteRegE, MemtoRegE, RegWriteE, WriteRegM, MemtoRegM
     output reg ForwardBD;
     output reg [1:0] ForwardAE;
     output reg [1:0] ForwardBE;
+
+    wire BranchTotal;
+
+    assign BranchTotal = BranchD | NotBranchD | BranchLTD;
     
     initial begin 
         StallF = 0;
@@ -37,9 +43,9 @@ module HazardUnit(BranchD, WriteRegE, MemtoRegE, RegWriteE, WriteRegM, MemtoRegM
     end 
 
     // Control StallF, StallD & FlushE
-    always@(MemtoRegE, RtE, RtD, RsD)
+    always@(MemtoRegE, MemtoRegM, RtE, RtD, RsD, BranchTotal, RegWriteE, WriteRegE, WriteRegM)
     begin      
-        if ((MemtoRegE & ((RtE == RtD)|(RtE == RsD)))||((BranchD && RegWriteE && (WriteRegE == RsD || WriteRegE == RtD)) || (BranchD && MemtoRegM && (WriteRegM == RsD || WriteRegM == RtD))))   
+        if ((MemtoRegE & ((RtE == RtD)|(RtE == RsD)))||((BranchTotal && RegWriteE && (WriteRegE == RsD || WriteRegE == RtD)) || (BranchTotal && MemtoRegM && (WriteRegM == RsD || WriteRegM == RtD))))   
         begin
             StallF = 1;
             StallD = 1;

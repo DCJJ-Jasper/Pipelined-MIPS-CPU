@@ -198,7 +198,7 @@ module pipetop;
 
     assign Branch = (BranchD & EqualD);
     assign NotBranch = (NotBranchD & NotEqualD);
-	assign BranchLT = (BranchLTD&RD1Eq[31] ==1);
+	assign BranchLT = (BranchLTD&RD1Eq[31] == 1);
    
     assign PCSrcD = (NotBranch | Branch |BranchLT);
    
@@ -233,7 +233,7 @@ module pipetop;
 
     mux muxforMemtoReg(ReadDataW, ALUOutW, MemtoRegW, ResultW);
 
-    HazardUnit theHazardUnit(BranchD, WriteRegE, MemtoRegE, RegWriteE, WriteRegM, MemtoRegM, RegWriteM, WriteRegW, RegWriteW, RsD, RtD, RsE, RtE, StallF, StallD, FlushE, ForwardAD, ForwardBD, ForwardAE, ForwardBE); 
+    HazardUnit theHazardUnit(BranchD, NotBranchD, BranchLTD,  WriteRegE, MemtoRegE, RegWriteE, WriteRegM, MemtoRegM, RegWriteM, WriteRegW, RegWriteW, RsD, RtD, RsE, RtE, StallF, StallD, FlushE, ForwardAD, ForwardBD, ForwardAE, ForwardBE); 
 
     always begin
         #50 clk = ~clk;
