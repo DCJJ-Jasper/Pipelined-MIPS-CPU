@@ -10,12 +10,12 @@ module datamem(clk, MemWriteEight, MemWrite, Addr, Wdata, Rdata);
 	input [31:0] Wdata;
 	output [31:0] Rdata;
 
-	reg [31:0] mem [32'hFFFFFFFF : 32'hFFFFFF00];
+	reg [31:0] mem [32'hFFFFFFFF : 32'hFFFF0000];
 
 	integer i;	
 
 	initial begin
-        for(i=32'hFFFFFFFF; i>=32'hFFFFFF00; i=i-1)
+        for(i=32'hFFFFFFFF; i>=32'hFFFF0000; i=i-1)
         begin 
             mem[i]=0;
         end
