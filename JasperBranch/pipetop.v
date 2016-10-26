@@ -11,6 +11,7 @@ module pipetop;
     wire PCSrcD;
     wire NotBranch;
     wire Branch;
+    wire BranchLT;
 
     wire [31:0] PCPlus4F;
 
@@ -66,6 +67,7 @@ module pipetop;
 
     wire BranchD;
     wire NotBranchD;
+    wire BranchLTD;
 
 
 
@@ -170,7 +172,7 @@ module pipetop;
     assign ShiftBeforeADD = SignImmD << 2;
     assign PCBranchD = ShiftBeforeADD + PCPlus4D;
 
-    control theControl(InstrD[31:26], InstrD[5:0], RegDstD, Jump, BranchD,NotBranchD, MemRead, MemtoRegD, ShiftD, ALUControlD, RegWriteD, ALUSrcD, MemWriteD,MemWriteSBD, sysD, Jr, JalD);
+    control theControl(InstrD[31:26], InstrD[5:0], RegDstD, Jump, BranchD,NotBranchD, BranchLTD,MemRead, MemtoRegD, ShiftD, ALUControlD, RegWriteD, ALUSrcD, MemWriteD,MemWriteSBD, sysD, Jr, JalD);
 
     register theRegister(clk,InstrD[25:21], InstrD[20:16], A3, WD3, RegWriteW, data1D, data2D, regvD, regaD);
 
@@ -188,8 +190,9 @@ module pipetop;
 
     assign Branch = (BranchD & EqualD);
     assign NotBranch = (NotBranchD & NotEqualD);
+	assign BranchLT = (BranchLTD&RD1Eq[31] ==1);
    
-    assign PCSrcD = (NotBranch | Branch);
+    assign PCSrcD = (NotBranch | Branch |BranchLT);
    
     DtoE theDtoE(clk, FlushE, RegWriteD, MemtoRegD, MemWriteD, MemWriteSBD, ShiftD, ALUControlD, ALUSrcD, RegDstD, data1D, data2D, RsD, RtD, RdD, shamtD, SignImmD, PCPlus4D, JalD,sysD,regvD,regaD, RegWriteE, MemtoRegE, MemWriteE, MemWriteSBE, ShiftE, ALUControlE, ALUSrcE, RegDstE, data1E, data2E, RsE, RtE, RdE, shamtE, SignImmE, PCPlus4E, JalE,sysE,regvE,regaE);
 
