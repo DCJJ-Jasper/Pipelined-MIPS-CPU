@@ -9,6 +9,7 @@ module control(opcode,
 	jump, 
 	branch, 
 	branchne, 
+	branchLT, 
 	memRead, 
 	memToReg, 
 	Shift, 
@@ -28,6 +29,7 @@ module control(opcode,
 	output reg jump;
 	output reg branch;
 	output reg branchne;
+	output reg branchLT;
 	output reg memRead;
 	output reg memToReg;
 	output reg [1:0] Shift;
@@ -46,6 +48,7 @@ module control(opcode,
 		jump = 1'b0;
 		branch = 1'b0;
 		branchne = 1'b0;
+		branchLT = 1'b0;
 		memRead = 1'b0; 
 		memToReg = 1'b0; 
 		ALUop = 2'b00;
@@ -68,6 +71,7 @@ module control(opcode,
 					   jump <= 1'b0;
 					   branch <= 1'b0;
 					   branchne <= 1'b0;
+					   branchLT <= 1'b0;
 					   memRead <= 1'b0; 
 					   memToReg <= 1'b0; 
 					   Shift <= 2'b00;
@@ -86,6 +90,7 @@ module control(opcode,
 					   jump <= 1'b0;
 					   branch <= 1'b0;
 					   branchne <= 1'b0;
+					   branchLT <= 1'b0;
 					   memRead <= 1'b0; 
 					   memToReg <= 1'b0; 
 					   Shift <= 2'b00;
@@ -104,6 +109,7 @@ module control(opcode,
 					   jump <= 1'b0;
 					   branch <= 1'b0;
 					   branchne <= 1'b0;
+					   branchLT <= 1'b0;
 					   memRead <= 1'b0; 
 					   memToReg <= 1'b0; 
 					   Shift <= 2'b00;
@@ -122,6 +128,7 @@ module control(opcode,
 					   jump <= 1'b0;
 					   branch <= 1'b0;
 					   branchne <= 1'b0;
+					   branchLT <= 1'b0;
 					   memRead <= 1'b0; 
 					   memToReg <= 1'b0; 
 					   Shift <= 2'b00;
@@ -140,6 +147,7 @@ module control(opcode,
 					   jump <= 1'b0;
 					   branch <= 1'b0;
 					   branchne <= 1'b0;
+					   branchLT <= 1'b0;
 					   memRead <= 1'b0; 
 					   memToReg <= 1'b0; 
 					   Shift <= 2'b00;
@@ -158,6 +166,7 @@ module control(opcode,
 					   jump <= 1'b0;
 					   branch <= 1'b0;
 					   branchne <= 1'b0;
+					   branchLT <= 1'b0;
 					   memRead <= 1'b0; 
 					   memToReg <= 1'b0;
 					   Shift <= 2'b10; 
@@ -176,6 +185,7 @@ module control(opcode,
 					   jump <= 1'b0;
 					   branch <= 1'b0;
 					   branchne <= 1'b0;
+					   branchLT <= 1'b0;
 					   memRead <= 1'b0; 
 					   memToReg <= 1'b0;
 					   Shift <= 2'b01; 
@@ -194,6 +204,7 @@ module control(opcode,
 					   jump <= 1'b0;
 					   branch <= 1'b0;
 					   branchne <= 1'b0;
+					   branchLT <= 1'b0;
 					   memRead <= 1'b0; 
 					   memToReg <= 1'b0; 
 					   Shift <= 2'b00;
@@ -212,6 +223,7 @@ module control(opcode,
 					   jump <= 1'b0;
 					   branch <= 1'b0;
 					   branchne <= 1'b0;
+					   branchLT <= 1'b0;
 					   memRead <= 1'b0; 
 					   memToReg <= 1'b0; 
 					   Shift <= 2'b00;
@@ -230,6 +242,7 @@ module control(opcode,
 					   	jump <= 1'b0;
 					   	branch <= 1'b0;
 					    branchne <= 1'b0;
+					    branchLT <= 1'b0;
 					   	memRead <= 1'b0; 
 					   	memToReg <= 1'b0; 
 					    Shift <= 2'b00;
@@ -251,6 +264,7 @@ module control(opcode,
 				jump <= 1'b0;
 				branch <= 1'b0;
 				branchne <= 1'b0;
+				branchLT <= 1'b0;
 				memRead <= 1'b0; 
 				memToReg <= 1'b0; 
 				Shift <= 2'b00;
@@ -269,6 +283,7 @@ module control(opcode,
 				jump <= 1'b0;
 				branch <= 1'b0;
 				branchne <= 1'b0;
+				branchLT <= 1'b0;
 				memRead <= 1'b0; 
 				memToReg <= 1'b0; 
 				Shift <= 2'b00;
@@ -287,6 +302,7 @@ module control(opcode,
 				jump <= 1'b0;
 				branch <= 1'b0;
 				branchne <= 1'b0;
+				branchLT <= 1'b0;
 				memRead <= 1'b0; 
 				memToReg <= 1'b0; 
 				Shift <= 2'b00;
@@ -304,6 +320,7 @@ module control(opcode,
 				jump <= 1'b0;
 				branch <= 1'b0;
 				branchne <= 1'b0;
+				branchLT <= 1'b0;
 				memRead <= 1'b0; 
 			    memToReg <= 1'b0; 
 				Shift <= 2'b00;
@@ -322,6 +339,7 @@ module control(opcode,
 				jump <= 1'b0;
 				branch <= 1'b0;
 				branchne <= 1'b0;
+				branchLT <= 1'b0;
 				memRead <= 1'b0; 
 				memToReg <= 1'b0; 
 				Shift <= 2'b00;
@@ -340,6 +358,7 @@ module control(opcode,
 				jump <= 1'b0;
 				branch <= 1'b0;
 				branchne <= 1'b0;
+				branchLT <= 1'b0;
 				memRead <= 1'b1; 
 				memToReg <= 1'b1; 
 				Shift <= 2'b00;
@@ -358,6 +377,7 @@ module control(opcode,
 				jump <= 1'b0;
 				branch <= 1'b0;
 				branchne <= 1'b0;
+				branchLT <= 1'b0;
 				memRead <= 1'b0; 
 				memToReg <= 1'b0; 
 				Shift <= 2'b00;
@@ -375,6 +395,7 @@ module control(opcode,
 				jump <= 1'b0;
 				branch <= 1'b0;
 				branchne <= 1'b0;
+				branchLT <= 1'b0;
 				memRead <= 1'b0; 
 				memToReg <= 1'b0; 
 				Shift <= 2'b00;
@@ -393,6 +414,7 @@ module control(opcode,
 				jump <= 1'b0;
 				branch <= 1'b1;
 				branchne <= 1'b0;
+				branchLT <= 1'b0;
 				memRead <= 1'b0; 
 				memToReg <= 1'b0; 
 				Shift <= 2'b00;
@@ -411,6 +433,7 @@ module control(opcode,
 				jump <= 1'b0;
 				branch <= 1'b0;
 				branchne <= 1'b1;
+				branchLT <= 1'b0;
 				memRead <= 1'b0; 
 				memToReg <= 1'b0; 
 				Shift <= 2'b00;
@@ -424,11 +447,31 @@ module control(opcode,
 				jal <= 1'b0;
 			end
 
+			`BLTZ: begin
+				regDst <= 1'bx;
+				jump <= 1'b0;
+				branch <= 1'b0;
+				branchne <= 1'b0;
+				branchLT <= 1'b1;
+				memRead <= 1'b0; 
+				memToReg <= 1'b0; 
+				Shift <= 2'b00;
+				ALUop <= 3'b110;
+				regWrite <= 1'b0;
+				ALUSrc <= 1'b0;
+				memWrite <= 1'b0;
+				memWriteSB <= 1'b0;
+				sys <= 1'b0;
+				jr <= 1'b0;
+				jal <= 1'b0;
+			end//noBLT?
+
 			`J: begin
 				regDst <= 1'bx;
 				jump <= 1'b1;
 				branch <= 1'b0;
 				branchne <= 1'b0;
+				branchLT <= 1'b0;
 				memRead <= 1'b0; 
 				memToReg <= 1'b0; 
 				Shift <= 2'b00;
@@ -447,6 +490,7 @@ module control(opcode,
 				jump <= 1'b1;
 				branch <= 1'b0;
 				branchne <= 1'b0;
+				branchLT <= 1'b0;
 				memRead <= 1'b0; 
 				memToReg <= 1'b0; 
 				Shift <= 2'b00;
@@ -465,6 +509,7 @@ module control(opcode,
 				jump <= 1'b0;
 				branch <= 1'b0;
 				branchne <= 1'b0;
+				branchLT <= 1'b0;
 				memRead <= 1'b0; 
 				memToReg <= 1'b0; 
 				Shift <= 2'b00;
