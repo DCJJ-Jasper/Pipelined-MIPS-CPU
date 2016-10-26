@@ -145,10 +145,11 @@ always@(RegWriteM, WriteRegM, RsD)
         else
             ForwardAD = 0; 
     end
-``
+```
 This particular forward will enable us to forward one execution stage to the next so that the Rs from that stage is replaced with the forwarded value. This is how we allow the program to run without stalls.
 
 Stalling occurs in the instance where we have conflicting rt registers in the execute and decode stage or the rs for the instruction at decode matches that of rt value in execute. We cannot carry through so the program outputs stall signals and flushes like such:
+
 ```
 if (MemtoRegE & ((RtE == RtD)|(RtE == RsD)))   
         begin
