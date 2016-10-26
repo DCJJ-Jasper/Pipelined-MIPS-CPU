@@ -252,7 +252,7 @@ module control(opcode,
 					   div <= 1'b0;
 					   mf <= 2'b00;
 					   ALUop <= 3'bxxx;
-					   regWrite <= 1'b0;
+					   regWrite <= 1'b1;
 					   ALUSrc <= 1'b0;
 					   memWrite <= 1'b0;
 					   memWriteSB <= 1'b0;
@@ -273,7 +273,7 @@ module control(opcode,
 					   div <= 1'b0;
 					   mf <= 2'b00;
 					   ALUop <= 3'bxxx;
-					   regWrite <= 1'b0;
+					   regWrite <= 1'b1;
 					   ALUSrc <= 1'b0;
 					   memWrite <= 1'b0;
 					   memWriteSB <= 1'b0;
