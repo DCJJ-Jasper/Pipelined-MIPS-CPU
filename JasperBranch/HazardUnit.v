@@ -39,7 +39,7 @@ module HazardUnit(BranchD, WriteRegE, MemtoRegE, RegWriteE, WriteRegM, MemtoRegM
     // Control StallF, StallD & FlushE
     always@(MemtoRegE, RtE, RtD, RsD)
     begin      
-        if (MemtoRegE & ((RtE == RtD)|(RtE == RsD)))   
+        if ((MemtoRegE & ((RtE == RtD)|(RtE == RsD)))||((BranchD && RegWriteE && (WriteRegE == RsD || WriteRegE == RtD)) || (BranchD && MemtoRegM && (WriteRegM == RsD || WriteRegM == RtD))))   
         begin
             StallF = 1;
             StallD = 1;
