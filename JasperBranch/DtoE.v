@@ -52,7 +52,7 @@ module DtoE(clk, FlushE, RegWriteD, MemtoRegD, MemWriteD, MemWriteSBD, ShiftD, A
             MemtoRegE <= 0;
             MemWriteE <= 0;
             MemWriteSBE <= 0;
-            ShiftD <= 0;
+            ShiftE <= 0;
             ALUControlE <= 0;
             ALUSrcE <= 0;
             RegDstE <= 0;
