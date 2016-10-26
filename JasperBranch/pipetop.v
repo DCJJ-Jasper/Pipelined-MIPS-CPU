@@ -9,6 +9,8 @@ module pipetop;
     reg clk;
 
     wire PCSrcD;
+    wire NotBranch;
+    wire Branch;
 
     wire [31:0] PCPlus4F;
 
@@ -52,6 +54,7 @@ module pipetop;
     wire [31:0] WriteDataM;
 
     wire BranchD;
+    wire NotBranchD;
 
 
 
@@ -103,10 +106,13 @@ module pipetop;
     wire [31:0] regvW;
     wire [31:0] regaW;
 
+   
+
     wire [31:0] RD1Eq;
     wire [31:0] RD2Eq;
 
     wire EqualD;
+    wire NotEqualD;
     wire [31:0] JumpPc;
     wire [31:0] PCMid1;
     wire [31:0] PCMid2;
@@ -153,7 +159,7 @@ module pipetop;
     assign ShiftBeforeADD = SignImmD << 2;
     assign PCBranchD = ShiftBeforeADD + PCPlus4D;
 
-    control theControl(InstrD[31:26], InstrD[5:0], RegDstD, Jump, BranchD, MemRead, MemtoRegD, ALUControlD, RegWriteD, ALUSrcD, MemWriteD, sysD, Jr, JalD);
+    control theControl(InstrD[31:26], InstrD[5:0], RegDstD, Jump, BranchD,NotBranchD, MemRead, MemtoRegD, ALUControlD, RegWriteD, ALUSrcD, MemWriteD, sysD, Jr, JalD);
 
     register theRegister(clk,InstrD[25:21], InstrD[20:16], A3, WD3, RegWriteW, data1D, data2D, regvD, regaD);
 
@@ -166,9 +172,13 @@ module pipetop;
 
     // If == does not work, write a small module for it
     assign EqualD = (RD1Eq == RD2Eq);
+    assign NotEqualD = (RD1Eq != RD2Eq);
 
-    assign PCSrcD = (BranchD & EqualD);
-
+    assign Branch = (BranchD & EqualD);
+    assign NotBranch = (NotBranchD & NotEqualD);
+   
+    assign PCSrcD = (NotBranch | Branch);
+   
     DtoE theDtoE(clk, FlushE, RegWriteD, MemtoRegD, MemWriteD, ALUControlD, ALUSrcD, RegDstD, data1D, data2D, RsD, RtD, RdD, SignImmD, PCPlus4D, JalD,sysD,regvD,regaD, RegWriteE, MemtoRegE, MemWriteE, ALUControlE, ALUSrcE, RegDstE, data1E, data2E, RsE, RtE, RdE, SignImmE, PCPlus4E, JalE,sysE,regvE,regaE);
 
     mux5 mux5ForRtEandRdE(RdE, RtE, RegDstE, WriteRegE);
