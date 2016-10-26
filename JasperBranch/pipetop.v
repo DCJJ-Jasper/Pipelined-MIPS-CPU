@@ -102,6 +102,8 @@ module pipetop;
     wire [31:0] ResultW;
     wire [31:0] SrcAE;
     wire [31:0] SrcBE;
+	
+	wire [31:0] MemForwardD; //testing
 
     wire [31:0] PCBranchD;
     wire [31:0] PC;
@@ -187,8 +189,8 @@ module pipetop;
     assign RdD = InstrD[15:11];
     assign shamtD = InstrD[10:6];
 
-    mux muxforRD1(ALUOutM, data1D, ForwardAD, RD1Eq);
-    mux muxforRD2(ALUOutM, data2D, ForwardBD, RD2Eq);
+    mux muxforRD1(MemForwardD, data1D, ForwardAD, RD1Eq);
+    mux muxforRD2(MemForwardD, data2D, ForwardBD, RD2Eq);
 
     // If == does not work, write a small module for it
     assign EqualD = (RD1Eq == RD2Eq);
@@ -224,6 +226,8 @@ module pipetop;
     EtoM theEtoM(clk, RegWriteE, MemtoRegE, MemWriteE, MemWriteSBE, ALUInE, WriteDataE, WriteRegE, PCPlus4E, JalE, sysE, regvE, regaE, RegWriteM, MemtoRegM, MemWriteM, MemWriteSBM, ALUOutM, WriteDataM, WriteRegM, PCPlus4M, JalM, sysM, regvM, regaM);
 
     datamem theDataMem(clk, MemWriteSBM, MemWriteM, ALUOutM, WriteDataM, ReadDataM);
+
+    mux muxforMemDForward(ReadDataM, ALUOutM, MemtoRegM, MemForwardD);
 
     MtoW theMtoW(clk, RegWriteM, MemtoRegM, ReadDataM, ALUOutM, WriteRegM, PCPlus4M, JalM, sysM, regvM, regaM, RegWriteW, MemtoRegW, ReadDataW, ALUOutW, WriteRegW, PCPlus4W, JalW, sysW, regvW, regaW); 
 
