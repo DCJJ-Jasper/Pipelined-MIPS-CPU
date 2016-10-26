@@ -1,10 +1,14 @@
-module DtoE(clk, FlushE, RegWriteD, MemtoRegD, MemWriteD, ALUControlD, ALUSrcD, RegDstD, data1D, data2D, RsD, RtD, RdD, SignImmD, PCPlus4D, JalD, sysD, regvD, regaD, RegWriteE, MemtoRegE, MemWriteE, ALUControlE, ALUSrcE, RegDstE, data1E, data2E, RsE, RtE, RdE, SignImmE, PCPlus4E, JalE, sysE, regvE, regaE); 
+module DtoE(clk, FlushE, RegWriteD, MemtoRegD, MemWriteD, MemWriteSBD, ShiftD, divD, mfD, ALUControlD, ALUSrcD, RegDstD, data1D, data2D, RsD, RtD, RdD, shamtD, SignImmD, PCPlus4D, JalD, sysD, regvD, regaD, RegWriteE, MemtoRegE, MemWriteE, MemWriteSBE, ShiftE, divE, mfE, ALUControlE, ALUSrcE, RegDstE, data1E, data2E, RsE, RtE, RdE, shamtE, SignImmE, PCPlus4E, JalE, sysE, regvE, regaE); 
 
     input clk;
     input FlushE;
     input RegWriteD;
     input MemtoRegD;
     input MemWriteD;
+    input MemWriteSBD;
+    input [1:0] ShiftD;
+    input divD;
+    input [1:0] mfD;
     input [2:0] ALUControlD;
     input ALUSrcD;
     input RegDstD;
@@ -13,6 +17,7 @@ module DtoE(clk, FlushE, RegWriteD, MemtoRegD, MemWriteD, ALUControlD, ALUSrcD, 
     input [4:0] RsD;
     input [4:0] RtD;
     input [4:0] RdD;
+    input [4:0] shamtD;
     input [31:0] SignImmD;
     input [31:0] PCPlus4D;
     input JalD;
@@ -23,6 +28,10 @@ module DtoE(clk, FlushE, RegWriteD, MemtoRegD, MemWriteD, ALUControlD, ALUSrcD, 
     output reg RegWriteE;
     output reg MemtoRegE;
     output reg MemWriteE;
+    output reg MemWriteSBE;
+    output reg [1:0] ShiftE;
+    output reg divE;
+    output reg [1:0] mfE;
     output reg [2:0] ALUControlE;
     output reg ALUSrcE;
     output reg RegDstE;
@@ -31,6 +40,7 @@ module DtoE(clk, FlushE, RegWriteD, MemtoRegD, MemWriteD, ALUControlD, ALUSrcD, 
     output reg [4:0] RsE;
     output reg [4:0] RtE;
     output reg [4:0] RdE;
+    output reg [4:0] shamtE;
     output reg [31:0] SignImmE;
     output reg [31:0] PCPlus4E;
     output reg JalE;
@@ -45,6 +55,10 @@ module DtoE(clk, FlushE, RegWriteD, MemtoRegD, MemWriteD, ALUControlD, ALUSrcD, 
             RegWriteE <= 0;
             MemtoRegE <= 0;
             MemWriteE <= 0;
+            MemWriteSBE <= 0;
+            ShiftE <= 0;
+            divE <= 0;
+            mfE <= 0;
             ALUControlE <= 0;
             ALUSrcE <= 0;
             RegDstE <= 0;
@@ -53,6 +67,7 @@ module DtoE(clk, FlushE, RegWriteD, MemtoRegD, MemWriteD, ALUControlD, ALUSrcD, 
             RsE <= 0;
             RtE <= 0;
             RdE <= 0;
+            shamtE <= 0;
             SignImmE <= 0;
             PCPlus4E <= 0;
             JalE <= 0;
@@ -65,6 +80,10 @@ module DtoE(clk, FlushE, RegWriteD, MemtoRegD, MemWriteD, ALUControlD, ALUSrcD, 
             RegWriteE <= RegWriteD;
             MemtoRegE <= MemtoRegD;
             MemWriteE <= MemWriteD;
+            MemWriteSBE <= MemWriteSBD;
+            ShiftE <= ShiftD;
+            divE <= divD;
+            mfE <= mfD;
             ALUControlE <= ALUControlD;
             ALUSrcE <= ALUSrcD;
             RegDstE <= RegDstD;
@@ -73,6 +92,7 @@ module DtoE(clk, FlushE, RegWriteD, MemtoRegD, MemWriteD, ALUControlD, ALUSrcD, 
             RsE <= RsD;
             RtE <= RtD;
             RdE <= RdD;
+            shamtE <= shamtD;
             SignImmE <= SignImmD;
             PCPlus4E <= PCPlus4D;
             JalE <= JalD;

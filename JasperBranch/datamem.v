@@ -1,10 +1,11 @@
 
 
 
-module datamem(clk, MemWrite, Addr, Wdata, Rdata);
+module datamem(clk, MemWriteEight, MemWrite, Addr, Wdata, Rdata);
 
 	input clk;
 	input [31:0] Addr;
+	input MemWriteEight;
 	input MemWrite;
 	input [31:0] Wdata;
 	output [31:0] Rdata;
@@ -39,6 +40,12 @@ module datamem(clk, MemWrite, Addr, Wdata, Rdata);
 
 			//$display("double check mem[addr]: %0x", mem[Addr]);
 		end
+
+		if(MemWriteEight)
+		begin
+			mem[Addr][7:0] = Wdata[7:0];
+		end
+		
 	end
 
 	assign Rdata = mem[Addr];
