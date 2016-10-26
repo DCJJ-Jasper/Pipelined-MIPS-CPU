@@ -18,16 +18,8 @@ module FtoD(clk, StallD, PCSrcD, InstrF, PCPlus4F, InstrD, PCPlus4D);
     begin      
         if(!StallD)
         begin
-            if(PCSrcD)
-            begin
-                InstrD <= 0;
-                PCPlus4D <= 32'h00100000; 
-            end
-            else
-            begin
-                InstrD <= InstrF;
-                PCPlus4D <= PCPlus4F; 
-            end
+            InstrD <= InstrF;
+            PCPlus4D <= PCPlus4F; 
         end
     end
 
