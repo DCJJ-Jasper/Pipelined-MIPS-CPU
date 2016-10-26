@@ -2,6 +2,7 @@ alu.v
 control.v
 datamem.v
 extend.v
+HiAndLo.v
 instruction.v
 mux.v
 mux5.v
