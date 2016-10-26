@@ -147,7 +147,7 @@ module control(opcode,
 					   div <= 1'b1;
 					   mf <= 2'b00;
 					   ALUop <= 3'b010;
-					   regWrite <= 1'b1;
+					   regWrite <= 1'b0;
 					   ALUSrc <= 1'b0;
 					   memWrite <= 1'b0;
 					   memWriteSB <= 1'b0;
