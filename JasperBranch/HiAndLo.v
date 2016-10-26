@@ -4,13 +4,13 @@ module HiAndLo(SrcAE, SrcBE, divE, mfE, Out);
 	input [31:0] SrcBE; 
 	input divE;
 	input [1:0] mfE;
-	output reg [31:0] out;
+	output reg [31:0] Out;
 
 	reg [31:0] Hi;
 	reg [31:0] Lo;
 
 	initial begin
-		out = 0;
+		Out = 0;
 		Hi = 0;
 		Lo = 0;
 	end
