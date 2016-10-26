@@ -2,15 +2,15 @@
 #### CSCI 320 Project 2
 ##### Ari Faust, Terence McHugh, Jasper Ding
 ----
-##Jump Logic
+## Jump Logic
 
-##Branch Logic
+## Branch Logic
 
-##SLL
+## SLL
 
-##SRA
+## SRA
 
-##DIV
+## DIV
 
 ----
 ## MODULES
@@ -34,7 +34,8 @@ Integer prints the value at $a0
 String will iterate through the characters and use $write to write each one
 
 #### Registers
-```module register(input clk,input[4:0] register1,input[4:0] register2,input[4:0] writeregister,input[31:0] data,input regWrite,output reg [31:0]data1,output reg [31:0]data2,output [31:0]regv,output [31:0]rega);
+```
+module register(input clk,input[4:0] register1,input[4:0] register2,input[4:0] writeregister,input[31:0] data,input regWrite,output reg [31:0]data1,output reg [31:0]data2,output [31:0]regv,output [31:0]rega);
 ```
 Our register module takes as input the clock, the two source registers, regwrite signal, the destination register, data(an immediate value), the registers are also output with two different 32 bit values immediates (data1 and data2) coming from either the alu or memory. This module functions to store the values of all of our 32 bit registers used to compute in our processor. In the case of a register write the module responds will respond to the signal comming from the writeback stage and write to the appropriate register.
 
