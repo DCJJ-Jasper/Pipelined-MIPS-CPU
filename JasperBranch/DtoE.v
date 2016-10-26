@@ -1,4 +1,4 @@
-module DtoE(clk, FlushE, RegWriteD, MemtoRegD, MemWriteD, MemWriteSBD, ShiftD, ALUControlD, ALUSrcD, RegDstD, data1D, data2D, RsD, RtD, RdD, shamtD, SignImmD, PCPlus4D, JalD, sysD, regvD, regaD, RegWriteE, MemtoRegE, MemWriteE, MemWriteSBE, ShiftE, ALUControlE, ALUSrcE, RegDstE, data1E, data2E, RsE, RtE, RdE, shamtE, SignImmE, PCPlus4E, JalE, sysE, regvE, regaE); 
+module DtoE(clk, FlushE, RegWriteD, MemtoRegD, MemWriteD, MemWriteSBD, ShiftD, divD, mfD, ALUControlD, ALUSrcD, RegDstD, data1D, data2D, RsD, RtD, RdD, shamtD, SignImmD, PCPlus4D, JalD, sysD, regvD, regaD, RegWriteE, MemtoRegE, MemWriteE, MemWriteSBE, ShiftE, divE, mfE, ALUControlE, ALUSrcE, RegDstE, data1E, data2E, RsE, RtE, RdE, shamtE, SignImmE, PCPlus4E, JalE, sysE, regvE, regaE); 
 
     input clk;
     input FlushE;
@@ -7,6 +7,8 @@ module DtoE(clk, FlushE, RegWriteD, MemtoRegD, MemWriteD, MemWriteSBD, ShiftD, A
     input MemWriteD;
     input MemWriteSBD;
     input [1:0] ShiftD;
+    input divD;
+    input [1:0] mfD;
     input [2:0] ALUControlD;
     input ALUSrcD;
     input RegDstD;
@@ -28,6 +30,8 @@ module DtoE(clk, FlushE, RegWriteD, MemtoRegD, MemWriteD, MemWriteSBD, ShiftD, A
     output reg MemWriteE;
     output reg MemWriteSBE;
     output reg [1:0] ShiftE;
+    output reg divE;
+    output reg [1:0] mfE;
     output reg [2:0] ALUControlE;
     output reg ALUSrcE;
     output reg RegDstE;
@@ -53,6 +57,8 @@ module DtoE(clk, FlushE, RegWriteD, MemtoRegD, MemWriteD, MemWriteSBD, ShiftD, A
             MemWriteE <= 0;
             MemWriteSBE <= 0;
             ShiftE <= 0;
+            divE <= 0;
+            mfE <= 0;
             ALUControlE <= 0;
             ALUSrcE <= 0;
             RegDstE <= 0;
@@ -76,6 +82,8 @@ module DtoE(clk, FlushE, RegWriteD, MemtoRegD, MemWriteD, MemWriteSBD, ShiftD, A
             MemWriteE <= MemWriteD;
             MemWriteSBE <= MemWriteSBD;
             ShiftE <= ShiftD;
+            divE <= divD;
+            mfE <= mfD;
             ALUControlE <= ALUControlD;
             ALUSrcE <= ALUSrcD;
             RegDstE <= RegDstD;
