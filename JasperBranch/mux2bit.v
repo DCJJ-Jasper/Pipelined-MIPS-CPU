@@ -6,7 +6,7 @@ module mux2bit(in1, in2, in3, select, out);
 	input [1:0] select; 
 	output reg [31:0] out;
 
-	always@ (in1,in2,in3)
+	always@ (in1,in2,in3,select)
 	begin
 		if (select == 2'b00)
 			out <= in1;
