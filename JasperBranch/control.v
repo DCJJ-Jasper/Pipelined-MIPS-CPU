@@ -464,26 +464,7 @@ module control(opcode,
 				sys <= 1'b0;
 				jr <= 1'b0;
 				jal <= 1'b0;
-			end
-
-			`BLT: begin
-				regDst <= 1'bx;
-				jump <= 1'b0;
-				branch <= 1'b0;
-				branchne <= 1'b0;
-				branchLT <= 1'b1;
-				memRead <= 1'b0; 
-				memToReg <= 1'b0; 
-				Shift <= 2'b00;
-				ALUop <= 3'b110;
-				regWrite <= 1'b0;
-				ALUSrc <= 1'b0;
-				memWrite <= 1'b0;
-				memWriteSB <= 1'b0;
-				sys <= 1'b0;
-				jr <= 1'b0;
-				jal <= 1'b0;
-			end
+			end//noBLT?
 
 			`J: begin
 				regDst <= 1'bx;
