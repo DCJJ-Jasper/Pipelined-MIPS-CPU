@@ -241,7 +241,7 @@ module control(opcode,
 					end 			// case: `OR
 
 					`SLL: begin
-					   regDst <= 1'b0;
+					   regDst <= 1'b1;
 					   jump <= 1'b0;
 					   branch <= 1'b0;
 					   branchne <= 1'b0;
@@ -262,7 +262,7 @@ module control(opcode,
 
 					end 			// case: `SLl
 					`SRA: begin
-					   regDst <= 1'b0;
+					   regDst <= 1'b1;
 					   jump <= 1'b0;
 					   branch <= 1'b0;
 					   branchne <= 1'b0;
