@@ -225,7 +225,7 @@ module pipetop;
 
     EtoM theEtoM(clk, RegWriteE, MemtoRegE, MemWriteE, MemWriteSBE, ALUInE, WriteDataE, WriteRegE, PCPlus4E, JalE, sysE, regvE, regaE, RegWriteM, MemtoRegM, MemWriteM, MemWriteSBM, ALUOutM, WriteDataM, WriteRegM, PCPlus4M, JalM, sysM, regvM, regaM);
 
-    datamem theDataMem(clk, MemWriteSBM, MemWriteM, ALUOutM, WriteDataM, ReadDataM);
+    datamem theDataMem(clk, regvD, regaD, sysW, MemWriteSBM, MemWriteM, ALUOutM, WriteDataM, ReadDataM);
 
     mux muxforMemDForward(ReadDataM, ALUOutM, MemtoRegM, MemForwardD);
 
