@@ -122,7 +122,7 @@ module datamem(clk, regv, rega, sys, MemWriteEight, MemWrite, Addr, Wdata, Rdata
 
     always @(sys) begin
         if(sys == 1) begin
-            if(regv == 4) begin//string
+            if(regv == 4 && (rega <32'h00400000 || rega > 32'h00400400)) begin//string
                 loc = rega >> 2;
 	 
                 while(ram[loc] != 0) begin
@@ -135,7 +135,6 @@ module datamem(clk, regv, rega, sys, MemWriteEight, MemWrite, Addr, Wdata, Rdata
                 end
 
                 //$display("%s",printString);
-                $display("");
 	 
             end
       

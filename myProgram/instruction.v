@@ -26,7 +26,7 @@ module instruction(input [31:0] counter, input [31:0] regv, input [31:0] rega, i
                 $display("%d",rega);
             end
 
-            if(regv == 4) begin//string
+            if(regv == 4 && rega >32'h00400000 && rega < 32'h00400400) begin//string
                 loc = rega>>2;
 	 
                 while(instfile[loc] != 0) begin
@@ -38,8 +38,6 @@ module instruction(input [31:0] counter, input [31:0] regv, input [31:0] rega, i
                     loc = loc + 1;
                 end
 
-                //$display("%s",printString);
-                $display("");
 	 
             end
 
