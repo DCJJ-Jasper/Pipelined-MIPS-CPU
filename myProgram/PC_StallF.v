@@ -1,4 +1,4 @@
-module PC_StallF(clk, StallF, PC, PCF); 
+module PC_StallF(clk, StallF, PC, PCF, counter); 
 
     input clk;
     input StallF;
@@ -6,8 +6,11 @@ module PC_StallF(clk, StallF, PC, PCF);
 
     output reg [31:0] PCF;
 
+    output reg [31:0] counter;
+
     initial begin 
-        PCF = 32'h00400030; // Is it correct?
+        PCF = 32'h00400030;
+        counter = 0;
     end 
 
     always@(posedge clk)
@@ -15,11 +18,12 @@ module PC_StallF(clk, StallF, PC, PCF);
         if(!StallF)
         begin
             PCF <= PC;
+            counter <= counter + 1;
         end
         else 
         begin
-            // Is it correct? Stay the same as what professor told me 
             PCF <= PCF; 
+            counter <= counter;
         end
     end
 

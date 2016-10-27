@@ -154,6 +154,8 @@ module pipetop;
     wire multD;
     wire multE;
 
+    wire [31:0] counter;
+
 
     // module
 
@@ -167,9 +169,9 @@ module pipetop;
 
     mux muxforJr(data1D, PCMid2, Jr, PC);
 
-    PC_StallF thePCwithStallF(clk, StallF, PC, PCF);
+    PC_StallF thePCwithStallF(clk, StallF, PC, PCF, counter);
 
-    instruction instructionMem(regvD, regaD, sysW, PCF[31:2], InstrF);
+    instruction instructionMem(counter, regvD, regaD, sysW, PCF[31:2], InstrF);
 
     adder add4toPCF(PCF, PCPlus4F);
 

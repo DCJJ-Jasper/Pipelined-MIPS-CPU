@@ -1,4 +1,4 @@
-module instruction(input [31:0] regv, input [31:0] rega, input sys, input [29:0] pc,output reg [31:0] inst);
+module instruction(input [31:0] counter, input [31:0] regv, input [31:0] rega, input sys, input [29:0] pc,output reg [31:0] inst);
    
     reg [31:0] instfile [32'h00100000:32'h00100100];//32 32-bit registers
 
@@ -17,7 +17,7 @@ module instruction(input [31:0] regv, input [31:0] rega, input sys, input [29:0]
 
     //reg cont = 1;
     //string	   [800:0] printString;
-    reg counter = 0;
+
     reg i;
 
     always @(sys) begin
@@ -44,7 +44,10 @@ module instruction(input [31:0] regv, input [31:0] rega, input sys, input [29:0]
             end
 
             else if(regv == 10)begin//exit
-               $finish;
+                $display("Number of instruction:%d", counter );
+                $display("Number of cycles:%d", ($time/100) );
+                $display("IPC: %.16f", (counter/($time/100.0)) );
+                $finish;
             end
       
 
