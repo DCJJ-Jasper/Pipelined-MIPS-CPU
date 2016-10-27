@@ -13,17 +13,27 @@ extern int puts(const char *str);
 
 int fool(int a, int b)
 {
+	// if (a == 1)
+	// 	return ((a & b) + (a | b) - a);
+	// else 
+	// 	return (a * a);
+
 	if (a == 1)
-		return (a & b) + (a | b) - a;
+		return 1;
+	else if (a & b)
+		return (a * b);
+	else if (a | b)
+		return (a + b);
 	else 
-		return a * a;
+		return (a - b);
+
 } 
 
 
 int main(void)
 {
     char s[128]= {0};
-    int f = fool(2,4);
+    int f = fool(3,2);
     puts("Result is:");
     puts(itoa(f));
     puts("\n");
