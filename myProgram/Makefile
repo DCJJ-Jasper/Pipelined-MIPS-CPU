@@ -11,15 +11,15 @@ SREC=srec_cat
 CFLAGS=-mno-abicalls -fpic -nostdlib -static
 LDFLAGS=-L/usr/remote/mipsel/lib/gcc/mipsel-buildroot-linux-uclibc/4.6.3 -lgcc
 ASMSOURCE=puts.s start.s
-CSOURCE=factorial.c memset.c itoa.c
+CSOURCE=fool.c memset.c itoa.c
 
 ASMOBJ=$(ASMSOURCE:.s=.o)
 COBJ=$(CSOURCE:.c=.o)
 OBJECTS=$(ASMOBJ) $(COBJ)
 
-BIN_OUTPUT=factorial
-GCC_OUTPUT=factorial.s
-VERILOG_OUTPUT=factorial.v
+BIN_OUTPUT=fool
+GCC_OUTPUT=fool.s
+VERILOG_OUTPUT=fool.v
 
 all: $(OBJECTS)
 	# finally build an executable
