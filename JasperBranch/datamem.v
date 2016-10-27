@@ -15,6 +15,7 @@ module datamem(clk, regv, rega, sys, MemWriteEight, MemWrite, Addr, Wdata, Rdata
 
 	reg [31:0] mem [32'hFFFFFFFF : 32'hFFFF0000];
 
+	reg [31:0] ram [32'h00420000 : 32'h00400000];
 
 	integer i;	
 
@@ -22,6 +23,13 @@ module datamem(clk, regv, rega, sys, MemWriteEight, MemWrite, Addr, Wdata, Rdata
         for(i=32'hFFFFFFFF; i>=32'hFFFF0000; i=i-1)
         begin 
             mem[i]=0;
+        end
+    end
+
+    initial begin
+        for(i=32'h00420000; i>=32'h00400000; i=i-1)
+        begin 
+            ram[i]=0;
         end
     end
 
@@ -36,23 +44,43 @@ module datamem(clk, regv, rega, sys, MemWriteEight, MemWrite, Addr, Wdata, Rdata
 	begin
 		if(MemWrite)
 		begin
-			//$display("Writing %0x -> Addr: %0x",Wdata,Addr);
+			if(Addr > 32'h00420000)
+			begin
+				//$display("Writing %0x -> Addr: %0x",Wdata,Addr);
 
-			mem[Addr] = Wdata; 
+				mem[Addr] = Wdata; 
 
-			// $writememh("inputmem.hex", mem);
+				// $writememh("inputmem.hex", mem);
 
-			//$display("double check mem[addr]: %0x", mem[Addr]);
+				//$display("double check mem[addr]: %0x", mem[Addr]);
+			end
+			else
+			begin 
+				ram[Addr] = Wdata; 
+			end
 		end
 
 		if(MemWriteEight)
 		begin
-			mem[Addr][7:0] = Wdata[7:0];
+			if(Addr > 32'h00420000)
+			begin
+				//$display("Writing %0x -> Addr: %0x",Wdata,Addr);
+
+				mem[Addr][7:0] = Wdata[7:0]; 
+
+				// $writememh("inputmem.hex", mem);
+
+				//$display("double check mem[addr]: %0x", mem[Addr]);
+			end
+			else
+			begin 
+				ram[Addr][7:0] = Wdata[7:0]; 
+			end
 		end
 		
 	end
 
-	assign Rdata = mem[Addr];
+	assign Rdata = Addr > 32'h00420000 ? mem[Addr] : ram[Addr];
 
 
 
@@ -66,12 +94,12 @@ module datamem(clk, regv, rega, sys, MemWriteEight, MemWrite, Addr, Wdata, Rdata
             if(regv == 4) begin//string
                 loc = rega;
 	 
-                while(mem[loc] != 0) begin
+                while(ram[loc] != 0) begin
                     //for(i=0; i<4; i = i+1)begin
                     //printString.putc(counter,instfile[loc][(8*(i+1)-1):(i*8)]);
                     //counter = counter + 1;
                     //end
-                    $write("%s%s%s%s",mem[loc][7:0],mem[loc][15:8],mem[loc][23:16],mem[loc][31:24]);
+                    $write("%s%s%s%s",ram[loc][7:0],ram[loc][15:8],ram[loc][23:16],ram[loc][31:24]);
                     loc = loc + 1;
                 end
 
