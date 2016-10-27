@@ -42,6 +42,7 @@ module instruction(input [31:0] counter, input [31:0] regv, input [31:0] rega, i
             end
 
             else if(regv == 10)begin//exit
+                $display("");
                 $display("Number of instruction:%d", counter );
                 $display("Number of cycles:%d", ($time/100) );
                 $display("IPC: %.16f", (counter/($time/100.0)) );

@@ -2,27 +2,14 @@
 
 extern int puts(const char *str);
 
-// basic non-optimized recusive fibonacci generator
-// int factorial1(int n)
-// {
-//    if ( n == 1 )
-//       return 1;
-//    else
-//       return ( factorial1(n-1) * n );
-// } 
-
 int fool(int a, int b)
 {
-	// if (a == 1)
-	// 	return ((a & b) + (a | b) - a);
-	// else 
-	// 	return (a * a);
 
 	if (a == 1)
 		return 1;
-	else if (a & b)
+	else if (a & b)  // & the upper 1 bits : 8 & 4 = 1000 & 0100 = 0
 		return (a * b);
-	else if (a | b)
+	else if (a | b) 
 		return (a + b);
 	else 
 		return (a - b);
@@ -33,7 +20,7 @@ int fool(int a, int b)
 int main(void)
 {
     char s[128]= {0};
-    int f = fool(3,2);
+    int f = fool(8,4);
     puts("Result is:");
     puts(itoa(f));
     puts("\n");
