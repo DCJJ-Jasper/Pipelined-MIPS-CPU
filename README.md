@@ -4,7 +4,7 @@
 ----
 ## Jump Logic
 
-We first added logic for the basic jump that to find the address for that should be the next PC inside the Decode stage of the pipelin.  After, we realized that Jal and Jr needed to read and write to registers so we needed to add special cases for them.  First we handeled Jr by making a control signal that controls a mux that changes the next PC to be the data coming out of the register modlue for the value out of register Rs.  Next we handeled Jal by adding a control signal that changes the WriteRegW and the ResultW with a mux so that WriteRegW is changed to $ra or 31 and ResultW is set to PCplus4W and have it still jump in the Decode stage.
+We first added logic for the basic jump that to find the address for that should be the next PC inside the Decode stage of the pipelin.  After, we realized that Jal and Jr needed to read and write to registers so we needed to add special cases for them.  First we handled Jr by making a control signal that controls a mux that changes the next PC to be the data coming out of the register modlue for the value out of register Rs.  Next we handled Jal by adding a control signal that changes the WriteRegW and the ResultW with a mux so that WriteRegW is changed to $ra or 31 and ResultW is set to PCplus4W and have it still jump in the Decode stage.
 
 ## Branch Logic
 
@@ -12,9 +12,11 @@ We started with the basic logic and handled Bypass when an instruction before th
 
 ## SLL and SRA
 
-We handeled SLL and SRA outside of our ALU because we thought we were out of control bits because we started with only a 3 bit ALUControl.  Instead we just always shift the Rt register based on the Shamt part of the instruction and we have a 2 bit control signal to pick if it was SLL, SRA or the output of ALU.
+We handled SLL and SRA outside of our ALU because we thought we were out of control bits because we started with only a 3 bit ALUControl.  Instead we just always shift the Rt register based on the Shamt part of the instruction and we have a 2 bit control signal to pick if it was SLL, SRA or the output of ALU.
 
-## DIV
+## DIV and MULT
+
+We also handled Div and mult outside of the ALU just out of convenience because we added it later.  We pass in SrcAE and SrcBE into a module HiAndLow that handels the mult div and the mfhi and mflo.  On the divE control it stores the value of SrcAE divided by SrcBE into a register in the module as Hi. Then div stores SrcAE mod SrcBE into a register Lo.  So on mfhi and mflo turns the mf control to notify the HiAndLow module to push either the Hi or Low register to be muxed with the output of the ALU and check the upper bit of mf to see if it is trying to read those values.  The mult does a similare thing but stores the the value of Rs * Rt as a 64 bit value and store the upper 32 bits into Hi and lower 32 bits into Lo.
 
 ----
 ## MODULES
