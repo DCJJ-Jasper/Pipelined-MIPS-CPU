@@ -1,3 +1,9 @@
+// HazardUnit module
+
+// This module controls the hazard signals which would pass to pipeline register modules and some of the mux in order to tell them to pick which value or whether take a stall or not.
+
+// This module implements all the necessary forwarding and stall logics for 3 required programs.
+
 module HazardUnit(BranchD, NotBranchD, BranchLTD, WriteRegE, MemtoRegE, RegWriteE, WriteRegM, MemtoRegM, RegWriteM, WriteRegW, RegWriteW, RsD, RtD, RsE, RtE, StallF, StallD, FlushE, ForwardAD, ForwardBD, ForwardAE, ForwardBE); 
 
     input BranchD;
@@ -32,6 +38,7 @@ module HazardUnit(BranchD, NotBranchD, BranchLTD, WriteRegE, MemtoRegE, RegWrite
 
     assign BranchTotal = BranchD | NotBranchD | BranchLTD;
     
+    // Initialize for the beginning.
     initial begin 
         StallF = 0;
         StallD = 0;
@@ -57,7 +64,6 @@ module HazardUnit(BranchD, NotBranchD, BranchLTD, WriteRegE, MemtoRegE, RegWrite
             StallD = 0;
             FlushE = 0;
         end
-
     end
 
     // Control ForwardAD

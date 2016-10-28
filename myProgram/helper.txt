@@ -8,7 +8,6 @@ mux.v
 mux5.v
 PC_StallF.v
 register.v
-shiftleft2.v
 pipetop.v
 FtoD.v
 DtoE.v

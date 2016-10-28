@@ -1,6 +1,10 @@
 // Register module
 
-module register(input clk,input[4:0] register1,input[4:0] register2,input[4:0] writeregister,input[31:0] data,input regWrite,output reg [31:0] data1,output reg [31:0] data2,output [31:0]regv,output [31:0]rega);
+// This module creates the space for 32 registers which we would hold in this pipelined cpu.
+
+// Also, it will read the content from register and write back the content to register based on the control signal.
+
+module register(input clk, input[4:0] register1, input[4:0] register2, input[4:0] writeregister, input[31:0] data, input regWrite, output reg [31:0] data1, output reg [31:0] data2, output [31:0]regv, output [31:0]rega);
    
     //array of 32 indexes with 32 bit numbers as values
     reg [31:0] mymem [5'b11111 : 5'b00000];
@@ -9,6 +13,7 @@ module register(input clk,input[4:0] register1,input[4:0] register2,input[4:0] w
 	assign regv = mymem[2];
 	assign rega = mymem[4];
 
+    // Initialize for the beginning
     initial begin
         for(i=5'b0; i<5'b11111; i=i+1)begin //set mem values to 0
             mymem[i]=0;

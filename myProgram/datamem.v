@@ -1,5 +1,8 @@
+// datamem module
 
+// This module mainly handles the memory read and memory write problem (sw, lw & sb).
 
+// Also, if the system requests a print syscall (when sys is 1) and the given address is within the ram, then print the corresponding content.
 
 module datamem(clk, regv, rega, sys, MemWriteEight, MemWrite, Addr, Wdata, Rdata);
 
@@ -11,17 +14,19 @@ module datamem(clk, regv, rega, sys, MemWriteEight, MemWrite, Addr, Wdata, Rdata
 	input MemWriteEight;
 	input MemWrite;
 	input [31:0] Wdata;
+
 	output [31:0] Rdata;
 
 	reg [31:0] mem [32'hFFFFFFFF : 32'hFFFF0000];
-
 	reg [31:0] ram [32'h00108000 : 32'h00100000];
+
 	wire [31:0] Addr2;
 
 	integer i;	
 
 	assign Addr2 = Addr >> 2;
 
+	// Initialize mem
 	initial begin
         for(i=32'hFFFFFFFF; i>=32'hFFFF0000; i=i-1)
         begin 
@@ -29,6 +34,7 @@ module datamem(clk, regv, rega, sys, MemWriteEight, MemWrite, Addr, Wdata, Rdata
         end
     end
 
+    // Initialize ram
     initial begin
         for(i=32'h00108000; i>=32'h00100000; i=i-1)
         begin 
@@ -36,26 +42,14 @@ module datamem(clk, regv, rega, sys, MemWriteEight, MemWrite, Addr, Wdata, Rdata
         end
     end
 
-	/*
-	initial begin
-		$readmemh("inputmem.hex", mem);
-	end
-	*/
-
-	//memory write
+    // Mem write (sw & sb)
 	always@(posedge clk)
 	begin
 		if(MemWrite)
 		begin
 			if(Addr > 32'h00420000)
 			begin
-				//$display("Writing %0x -> Addr: %0x",Wdata,Addr);
-
 				mem[Addr] = Wdata; 
-
-				// $writememh("inputmem.hex", mem);
-
-				//$display("double check mem[addr]: %0x", mem[Addr]);
 			end
 			else
 			begin 
@@ -84,12 +78,8 @@ module datamem(clk, regv, rega, sys, MemWriteEight, MemWrite, Addr, Wdata, Rdata
 
 				endcase 
 				mem[Addr][7:0] = Wdata[7:0]; 
-
-				// $writememh("inputmem.hex", mem);
-
-				//$display("double check mem[addr]: %0x", mem[Addr]);
 			end
-			else
+			else	// else write to ram
 			begin 
 				case(Addr[1:0])
 					2'b11: begin
@@ -104,43 +94,31 @@ module datamem(clk, regv, rega, sys, MemWriteEight, MemWrite, Addr, Wdata, Rdata
 					2'b00: begin
 						ram[Addr2][7:0] = Wdata[7:0]; 
 					end
-
 				endcase 
 			end
-		end
-		
+		end	
 	end
 
+	// Read the data with the given address
 	assign Rdata = Addr > 32'h00420000 ? mem[Addr] : ram[Addr2];
 
-
-
-	//$display("mem: % ", mem);
-
-	//Adding Syscall
+	// Handling the part of syscall
     reg [31:0] loc;
 
     always @(sys) begin
         if(sys == 1) begin
-            if(regv == 4 && (rega <32'h00400000 || rega > 32'h00400400)) begin//string
+            if(regv == 4 && (rega <32'h00400000 || rega > 32'h00400400))
+            begin
                 loc = rega >> 2;
 	 
                 while(ram[loc] != 0) begin
-                    //for(i=0; i<4; i = i+1)begin
-                    //printString.putc(counter,instfile[loc][(8*(i+1)-1):(i*8)]);
-                    //counter = counter + 1;
-                    //end
                     $write("%s%s%s%s",ram[loc][7:0],ram[loc][15:8],ram[loc][23:16],ram[loc][31:24]);
+
                     loc = loc + 1;
-                end
-
-                //$display("%s",printString);
-	 
+                end 
             end
-      
-
-        end // if (sys == 1)
-   end // always begin
+        end 		// if (sys == 1)
+   end 				// always begin
    
 
 endmodule

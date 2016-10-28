@@ -1,4 +1,9 @@
-module EtoM(clk, RegWriteE, MemtoRegE, MemWriteE, MemWriteSBE, ALUInE, WriteDataE, WriteRegE, PCPlus4E, JalE, sysE, regvE, regaE, RegWriteM, MemtoRegM, MemWriteM, MemWriteSBM, ALUOutM, WriteDataM, WriteRegM, PCPlus4M, JalM, sysM, regvM, regaM); 
+// EtoM modules
+
+// This module is one of the pipeline register module which passes through all necessary information within the execute state to memory state every clock cycle.
+
+
+module EtoM(clk, RegWriteE, MemtoRegE, MemWriteE, MemWriteSBE, ALUInE, WriteDataE, WriteRegE, PCPlus4E, JalE, sysE, breakE, regvE, regaE, RegWriteM, MemtoRegM, MemWriteM, MemWriteSBM, ALUOutM, WriteDataM, WriteRegM, PCPlus4M, JalM, sysM, breakM, regvM, regaM); 
 
     input clk;
     input RegWriteE;
@@ -13,6 +18,7 @@ module EtoM(clk, RegWriteE, MemtoRegE, MemWriteE, MemWriteSBE, ALUInE, WriteData
     input [31:0] regvE;
     input [31:0] regaE;
     input sysE;
+    input breakE;
 
     output reg RegWriteM;
     output reg MemtoRegM;
@@ -26,7 +32,9 @@ module EtoM(clk, RegWriteE, MemtoRegE, MemWriteE, MemWriteSBE, ALUInE, WriteData
     output reg [31:0] regvM;
     output reg [31:0] regaM;
     output reg sysM;
+    output reg breakM;
     
+    // Initialize all outputs for the beginning.
     initial begin 
         RegWriteM = 0;
         MemtoRegM = 0;
@@ -40,9 +48,10 @@ module EtoM(clk, RegWriteE, MemtoRegE, MemWriteE, MemWriteSBE, ALUInE, WriteData
 		regvM = 0;
         regaM = 0;
         sysM = 0;
-
+        breakM = 0;
     end 
 
+    // For each posedge of clk, pass through the signals.
     always@(posedge clk)
     begin      
         RegWriteM <= RegWriteE;
@@ -57,7 +66,7 @@ module EtoM(clk, RegWriteE, MemtoRegE, MemWriteE, MemWriteSBE, ALUInE, WriteData
 		regvM <= regvE;
         regaM <= regaE;
         sysM <= sysE;
-
+        breakM <= breakE;
     end
 
 endmodule

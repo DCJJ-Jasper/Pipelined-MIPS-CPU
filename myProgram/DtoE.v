@@ -1,4 +1,11 @@
-module DtoE(clk, FlushE, RegWriteD, MemtoRegD, MemWriteD, MemWriteSBD, ShiftD, divD, multD, mfD, ALUControlD, ALUSrcD, RegDstD, data1D, data2D, RsD, RtD, RdD, shamtD, SignImmD, PCPlus4D, JalD, sysD, regvD, regaD, RegWriteE, MemtoRegE, MemWriteE, MemWriteSBE, ShiftE, divE, multE, mfE, ALUControlE, ALUSrcE, RegDstE, data1E, data2E, RsE, RtE, RdE, shamtE, SignImmE, PCPlus4E, JalE, sysE, regvE, regaE); 
+// DtoE modules
+
+// This module is one of the pipeline register module which passes through all necessary information within the decode state to execute state every clock cycle.
+
+// Also, it would flush all passing signals if the hazard control unit gives FlushE == 1.
+
+
+module DtoE(clk, FlushE, RegWriteD, MemtoRegD, MemWriteD, MemWriteSBD, ShiftD, divD, multD, mfD, ALUControlD, ALUSrcD, RegDstD, data1D, data2D, RsD, RtD, RdD, shamtD, SignImmD, PCPlus4D, JalD, sysD, breakD, regvD, regaD, RegWriteE, MemtoRegE, MemWriteE, MemWriteSBE, ShiftE, divE, multE, mfE, ALUControlE, ALUSrcE, RegDstE, data1E, data2E, RsE, RtE, RdE, shamtE, SignImmE, PCPlus4E, JalE, sysE, breakE, regvE, regaE); 
 
     input clk;
     input FlushE;
@@ -25,6 +32,7 @@ module DtoE(clk, FlushE, RegWriteD, MemtoRegD, MemWriteD, MemWriteSBD, ShiftD, d
     input [31:0] regvD;
     input [31:0] regaD;
     input sysD;
+    input breakD;
 
     output reg RegWriteE;
     output reg MemtoRegE;
@@ -49,10 +57,11 @@ module DtoE(clk, FlushE, RegWriteD, MemtoRegD, MemWriteD, MemWriteSBD, ShiftD, d
     output reg [31:0] regvE;
     output reg [31:0] regaE;
     output reg sysE;
+    output reg breakE;
 
     always@(posedge clk)
     begin
-        if(FlushE)
+        if(FlushE)      // If there is a flush, does a flush.
         begin
             RegWriteE <= 0;
             MemtoRegE <= 0;
@@ -77,8 +86,9 @@ module DtoE(clk, FlushE, RegWriteD, MemtoRegD, MemWriteD, MemWriteSBD, ShiftD, d
 			regvE <= 0;
             regaE <= 0;
             sysE <= 0;
+            breakE <= 0;
         end
-        else
+        else        // If there is no flush, pass through the signals.
         begin
             RegWriteE <= RegWriteD;
             MemtoRegE <= MemtoRegD;
@@ -103,6 +113,7 @@ module DtoE(clk, FlushE, RegWriteD, MemtoRegD, MemWriteD, MemWriteSBD, ShiftD, d
 			regvE <= regvD;
             regaE <= regaD;
             sysE <= sysD;
+            breakE <= breakD;
         end
     end
 endmodule

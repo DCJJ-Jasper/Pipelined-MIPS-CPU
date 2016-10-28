@@ -1,3 +1,8 @@
+// mux2bit module
+
+// This module helps to select which of the three inputs would be taken based on the select signal. In this case, there are three inputs, so the select signal is two bits.
+
+
 module mux2bit(in1, in2, in3, select, out);
 
 	input [31:0] in1;

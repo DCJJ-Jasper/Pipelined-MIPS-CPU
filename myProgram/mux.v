@@ -1,3 +1,8 @@
+// mux module
+
+// This module helps to select which of the two inputs would be taken based on the select signal.
+
+
 module mux(in1, in2, select, out);
 
 	input [31:0] in1;
