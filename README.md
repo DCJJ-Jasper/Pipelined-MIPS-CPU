@@ -98,31 +98,9 @@ begin
 end
 ```
 #### Control Unit
-```
-module control(opcode,
-	func,
-	regDst,
-	jump,
-	branch,
-	branchne,
-	branchLT,
-	memRead,
-	memToReg,
-	Shift,
-	div,
-	mult,
-	mf,
-	ALUop,
-	regWrite,
-	ALUSrc,
-	memWrite,
-	memWriteSB,
-	sys,
-	break,
-	jr,
-	jal
-);
-```
+![alt
+text](control_red.png)
+
 The control module takes in the opcode and function code for every instruction. Many wires are output, the majority being simple 1-bit wires. the alu code is longer because it specifies what operation to form. These signals are what control the flow of our processor defining the behavior. The signals incorporate jump logic, changing memory, register reading and writing, system calls and so on. Case statements are used identify the type of instruction.
 
 ```
@@ -130,45 +108,51 @@ case (opcode)
 			// For special
       `SPECIAL: begin
           case (func)
-  					`ADD: begin
-  						regDst <= 1'b1;
-  						jump <= 1'b0;
-  						branch <= 1'b0;
-  						branchne <= 1'b0;
-  						branchLT <= 1'b0;
-  						memRead <= 1'b0;
-  						memToReg <= 1'b0;
-  						Shift <= 2'b00;
-  						div <= 1'b0;
-  						mult <= 1'b0;
-  						mf <= 2'b00;
-  						ALUop <= 3'b010;
-  						regWrite <= 1'b1;
-  						ALUSrc <= 1'b0;
-  						memWrite <= 1'b0;
-  						memWriteSB <= 1'b0;
-  						sys <= 1'b0;
-  						break <= 1'b0;
-  						jr <= 1'b0;
-  						jal <= 1'b0;
-  					end 			// case: `ADD
+        	`ADD: begin
+        		regDst <= 1'b1;
+        		jump <= 1'b0;
+        		branch <= 1'b0;
+        		branchne <= 1'b0;
+        		branchLT <= 1'b0;
+        		memRead <= 1'b0;
+        		memToReg <= 1'b0;
+        		Shift <= 2'b00;
+        		div <= 1'b0;
+        		mult <= 1'b0;
+        		mf <= 2'b00;
+        		ALUop <= 3'b010;
+        		regWrite <= 1'b1;
+        		ALUSrc <= 1'b0;
+        		memWrite <= 1'b0;
+        		memWriteSB <= 1'b0;
+        		sys <= 1'b0;
+        		break <= 1'b0;
+        		jr <= 1'b0;
+        		jal <= 1'b0;
+        	end 			// case: `ADD
 
             ...
-
+      ...
 ```
 Here we can see that there is a second case imbedded to handle special cases when the opcode is all 0.
-Additionally all signals are initialized to 0 and the ALUop xxx
+Additionally all signals are initialized to 0 and the ALUop xxx.
+
+
 
 #### Multiplexers
-Multiplexer will select between the two inputs based on the control(select) signal. 1 dictates input 1 and 0 dictates input 2
+Multiplexer will select between the two inputs based on the control(select) signal. 1 dictates input1 and 0 dictates input2
 ```
 module mux(in1, in2, select, out);
+```
+Sometimes, two inputs are 5 bits instead.
+```
+module mux5(in1, in2, select, out);
 ```
 The cpu also makes use of multiple two bit multiplexers:
 ```
 module mux2bit(in1, in2, in3, select, out);
 ```
-The two bit functions in a similar way however there are 3 potential values and one more statement to handle with the select. The signal (select) is two bits. This is very effective for us to impliment our forwarding logic.
+The two bit functions in a similar way however there are 3 potential values and one more statement to handle with the select.The signal (select) is two bits. This is very effective for us to implement our forwarding logic.
 
 
 
@@ -176,47 +160,47 @@ The two bit functions in a similar way however there are 3 potential values and 
 ```
 module alu(opcode, rs, rt, out);
 ```
-The alu takes in the 3 bit opcode, rs value, rt value, and outputs a single 32 bit value. Alu has a case statement that takes in the opcode and depending on the opcode value a different operation is performed on the two value registers.
+The alu takes in the 3 bit opcode, rs value, rt value, and outputs a single 32 bit value. Alu has a case statement that takes in the opcode, and depending on the opcode, it will take different operations performed on the value of two given registers.
 
 ```
 always@(*) begin
-        case(opcode)   
-            3'b000:    
-            begin
-                temp = rs & rt;
-            end
+    case(opcode)   
+        3'b000:    
+        begin
+            temp = rs & rt;
+        end
 
-            3'b001:    
-            begin
-                temp = rs | rt;
-            end
+        3'b001:    
+        begin
+            temp = rs | rt;
+        end
 ```
-And continues in this format for +, <<,and -
+And continues in this format for +, <<, - and so on.
 
 
 
 
 #### Data Memory
-Data memory is represented as:
-```
-reg [31:0] mem [32'hFFFFFFFF : 32'hFFFFFF00];
-```
-Data memory takes in the clock, MemWrite signal, 32 bit Address, as well as Wdada and Rdata signals. At every signal from the clock the write signal is checked and if it is a write, the specific address is assigned to the data value.
-```
-mem[Addr] = Wdata;
-```
-Read values are constantly assigned and later are only used if called for.
+![alt
+text](datamem_blue.png)
+
+Data memory takes in the clock, MemWrite signal, 32 bit Address, as well as Wdada and Rdata signals. At every signal from the clock the write signal is checked and if it is a write, the content in specific address is assigned to the data value. And readdataW would already be mem[addr] or ram[addr], it will be decided to be taken or not later by the mux.
+
+In our datamem module, we also handled a part of print syscall as explained in System Calls session.
+
 
 #### Hazard Unit
 ```
-module HazardUnit(BranchD, WriteRegE, MemtoRegE, RegWriteE, WriteRegM, MemtoRegM, RegWriteM, WriteRegW, RegWriteW, RsD, RtD, RsE, RtE, StallF, StallD, FlushE, ForwardAD, ForwardBD, ForwardAE, ForwardBE);
+module HazardUnit(BranchD, NotBranchD, BranchLTD, WriteRegE, MemtoRegE, RegWriteE, WriteRegM, MemtoRegM, RegWriteM, WriteRegW, RegWriteW, RsD, RtD, RsE, RtE, StallF, StallD, FlushE, ForwardAD, ForwardBD, ForwardAE, ForwardBE);
 ```
 The hazard unit handles many different signals. It takes in the registers that are to be written to at stages Execution, Memory, and Write as well input signals regarding writing wrtiging data from memory. The registers used in the decode stage as sources are also inputs for the hazard unit.
+
 The hazard unit outputs 7 different wires, these regard stalling at if there are any data hazards which can be identified with the inputs. If it is possible to forward, the hazard units has logic to output to the multiplexers that the forwarded value should be used for a given cycle.
 
 For instance our AD forward case:
 ```
-always@(RegWriteM, WriteRegM, RsD)
+    // Control ForwardAD
+    always@(RegWriteM, WriteRegM, RsD)
     begin      
         if (RegWriteM & (RsD == WriteRegM) & (RsD != 0))
             ForwardAD = 1;  
@@ -226,15 +210,15 @@ always@(RegWriteM, WriteRegM, RsD)
 ```
 This particular forward will enable us to forward one execution stage to the next so that the Rs from that stage is replaced with the forwarded value. This is how we allow the program to run without stalls.
 
-Stalling occurs in the instance where we have conflicting rt registers in the execute and decode stage or the rs for the instruction at decode matches that of rt value in execute. We cannot carry through so the program outputs stall signals and flushes like such:
+Stalling occurs in the instance where we have conflicting rt registers in the execute and decode stage or the rs for the instruction at decode matches that of rt value in execute. Also, we need to handle the branchstall issue which is talked above, when branch instruction request the registers which are not written back yet. We cannot carry through so the program outputs stall signals and flushes like such:
 
 ```
-if (MemtoRegE & ((RtE == RtD)|(RtE == RsD)))   
-        begin
-            StallF = 1;
-            StallD = 1;
-            FlushE = 1;
-        end
+if ((MemtoRegE & ((RtE == RtD)|(RtE == RsD)))||((BranchTotal && RegWriteE && (WriteRegE == RsD || WriteRegE == RtD)) || (BranchTotal && MemtoRegM && (WriteRegM == RsD || WriteRegM == RtD))))   
+begin
+    StallF = 1;
+    StallD = 1;
+    FlushE = 1;
+end
 ```
 
 
@@ -243,7 +227,7 @@ All of our registers function in that they take all of the values output in a pa
 
 This is what the functionality within the registers looks like, this particular example is our Memory to Write register:
 ```
- always@(posedge clk)
+always@(posedge clk)
     begin      
         RegWriteW <= RegWriteM;
         MemtoRegW <= MemtoRegM;
@@ -255,6 +239,7 @@ This is what the functionality within the registers looks like, this particular 
 		regvW <= regvM;
         regaW <= regaM;
         sysW <= sysM;
+        breakW <= breakM;
     end
 ```
 
@@ -277,3 +262,150 @@ Memory to Writeback register
 ```
 module MtoW(clk, RegWriteM, MemtoRegM, ReadDataM, ALUOutM, WriteRegM, PCPlus4M, JalM, sysM, breakM, regvM, regaM, RegWriteW, MemtoRegW, ReadDataW, ALUOutW, WriteRegW, PCPlus4W, JalW, sysW, breakW, regvW, regaW);
 ```
+
+## Compilation
+
+In order to compile our pipelined cpu:
+```
+iverilog -o test -c helper.txt
+```
+We include a helper.txt which helps to compile our pipelined cpu.
+
+For fib and myprogram, if you want to test with other values. You can modify the .c file and run make, copy the content in .v output file to mem.in
+
+Finally, run the command shown above.
+
+## Execution and sample runs
+
+In order to execute:
+```
+vvp test
+```
+
+#### Here are the outputs for each program:
+
+###### 1. hello
+
+```
+[cd032@linuxremote1 ~/csci320_project2/hello]$ vvp test
+VCD info: dumpfile test.vcd opened for output.
+Hello world!
+Number of instruction:        28
+Number of cycles:             27
+IPC: 1.0181818181818181
+
+```
+
+###### 2. fib(12)
+
+```
+[cd032@linuxremote1 ~/csci320_project2/fibonacci]$ vvp test
+VCD info: dumpfile test.vcd opened for output.
+Result is:  
+    144
+
+Number of instruction:     15670
+Number of cycles:          16648
+IPC: 0.9412259362705349
+
+```
+
+###### 3. myProgram
+
+```
+[cd032@linuxremote1 ~/csci320_project2/myProgram]$ vvp test
+VCD info: dumpfile test.vcd opened for output.
+Result is:  
+     12
+
+Number of instruction:      1855
+Number of cycles:           1992
+IPC: 0.9309912170639900
+
+
+```
+
+
+## Submission
+
+We include each program in a separate folder with appropriate name.
+
+For testing, you can cd into each folder and run vvp test. The sample run is shown above.
+
+## MyProgram
+
+Here are the 26 instrunctions we included in myProgram:
+1. addiu
+2. addu
+3. andi
+4. b
+5. bltz
+6. bne
+7. bnez
+8. break
+9. div
+10. jal
+11. jr
+12. li
+13. lui
+14. lw
+15. mfhi
+16. mflo
+17. move
+18. or
+19. sb
+20. sll
+21. sra
+22. subu
+23. sw
+24. and
+25. beqz
+26. mult
+
+## Testing methodology
+
+#### 1. gtkwave
+
+![alt
+text](gtkwave.png)
+
+Following the gtkwave and pulling out desired wires with corresponding values helps us a lot when we are debugging. Even though it really takes time, we have to follow step by step in order to find the place where we made the mistakes on.
+
+Mainly, if the program did not touch exit system call, we will pull out the instrD which is the instruction of the system is going to take for each cycle.
+
+#### 2. Instruction Flow
+Here is a part of the instruction flow which is generated from the given command:
+
+```
+[cd032@linuxremote1 ~/csci320_project2/myProgram]$ mipsel-linux-objdump -d fool
+
+fool:     file format elf32-tradlittlemips
+
+
+Disassembly of section .text:
+
+004000b0 <_ftext>:
+  4000b0: 24020004  li  v0,4
+  4000b4: 0000000c  syscall
+  4000b8: 03e00008  jr  ra
+  4000bc: 00000000  nop
+
+004000c0 <__start>:
+  4000c0: 3c1d7fff 0c100066 37bdfffc 2402000a     ...<f......7...$
+  4000d0: 0000000c 00000000 00000000 00000000     ................
+
+004000e0 <fool>:
+  4000e0: 27bdfff8  addiu sp,sp,-8
+  4000e4: afbe0004  sw  s8,4(sp)
+  4000e8: 03a0f021  move  s8,sp
+  4000ec: afc40008  sw  a0,8(s8)
+  4000f0: afc5000c  sw  a1,12(s8)
+  4000f4: 8fc30008  lw  v1,8(s8)
+  4000f8: 24020001  li  v0,1
+  4000fc: 14620004  bne v1,v0,400110 <fool+0x30>
+  400100: 00000000  nop
+
+  ...
+```
+
+If the program exits, we will mainly follow the instruction flow we generate based on the given command and Makefile. Checking each branch instruction with correct behavior and appropriate registers' values. If something goes wrong, check the related signal and move one step previously until you find the place with the bug.
