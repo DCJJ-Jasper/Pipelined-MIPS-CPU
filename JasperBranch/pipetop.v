@@ -172,7 +172,7 @@ module pipetop;
 
     FtoD theFtoD(clk, StallD, PCSrcD, InstrF, PCPlus4F, InstrD, PCPlus4D);
 
-    mux muxforPCPlus4W(PCPlus4W, ResultW, JalW, WD3);
+    mux muxforJal(PCPlus4W, ResultW, JalW, WD3);
     mux5 mux5forJalW(5'b11111, WriteRegW, JalW, A3);
 
     extend theExtend(InstrD[15:0], SignImmD);

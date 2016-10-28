@@ -4,6 +4,8 @@
 ----
 ## Jump Logic
 
+We first added logic for the basic jump that to find the address for that should be the next PC inside the Decode stage of the pipelin.  After, we realized that Jal and Jr needed to read and write to registers so we needed to add special cases for them.  First we handeled Jr by making a control signal that controls a mux that changes the next PC to be the data coming out of the register modlue for the value out of register Rs.  Next we handeled Jal by adding a control signal that changes the WriteRegW and the ResultW with a mux so that WriteRegW is changed to $ra or 31 and ResultW is set to PCplus4W and have it still jump in the Decode stage.
+
 ## Branch Logic
 
 ## SLL
