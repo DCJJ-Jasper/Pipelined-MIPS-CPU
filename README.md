@@ -316,11 +316,11 @@ IPC: 0.9412259362705349
 [cd032@linuxremote1 ~/csci320_project2/myProgram]$ vvp test
 VCD info: dumpfile test.vcd opened for output.
 Result is:  
-     12
+     20
 
-Number of instruction:      1855
-Number of cycles:           1992
-IPC: 0.9309912170639900
+Number of instruction:      1850
+Number of cycles:           1986
+IPC: 0.9312861817266549
 
 
 ```
