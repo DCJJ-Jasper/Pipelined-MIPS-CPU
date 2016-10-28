@@ -1,8 +1,14 @@
-//The hazard unit handles many different signals. It takes in the registers that are to be written to at stages Execution, Memory, and Write as well input signals regarding writing wrtiging data from memory. The registers used in the decode stage as sources are also inputs for the hazard unit.
-//The hazard unit outputs 7 different wires, these regard stalling at if there are any data hazards which can be identified with the inputs. If it is possible to forward, the hazard units has logic to output to the multiplexers that the forwarded value should be used for a given cycle.
-module HazardUnit(BranchD, WriteRegE, MemtoRegE, RegWriteE, WriteRegM, MemtoRegM, RegWriteM, WriteRegW, RegWriteW, RsD, RtD, RsE, RtE, StallF, StallD, FlushE, ForwardAD, ForwardBD, ForwardAE, ForwardBE); 
+// HazardUnit module
+
+// This module controls the hazard signals which would pass to pipeline register modules and some of the mux in order to tell them to pick which value or whether take a stall or not.
+
+// This module implements all the necessary forwarding and stall logics for 3 required programs.
+
+module HazardUnit(BranchD, NotBranchD, BranchLTD, WriteRegE, MemtoRegE, RegWriteE, WriteRegM, MemtoRegM, RegWriteM, WriteRegW, RegWriteW, RsD, RtD, RsE, RtE, StallF, StallD, FlushE, ForwardAD, ForwardBD, ForwardAE, ForwardBE); 
 
     input BranchD;
+    input NotBranchD;
+    input BranchLTD;
 
     input [4:0] WriteRegE;
     input MemtoRegE;
@@ -27,7 +33,12 @@ module HazardUnit(BranchD, WriteRegE, MemtoRegE, RegWriteE, WriteRegM, MemtoRegM
     output reg ForwardBD;
     output reg [1:0] ForwardAE;
     output reg [1:0] ForwardBE;
+
+    wire BranchTotal;
+
+    assign BranchTotal = BranchD | NotBranchD | BranchLTD;
     
+    // Initialize for the beginning.
     initial begin 
         StallF = 0;
         StallD = 0;
@@ -39,9 +50,9 @@ module HazardUnit(BranchD, WriteRegE, MemtoRegE, RegWriteE, WriteRegM, MemtoRegM
     end 
 
     // Control StallF, StallD & FlushE
-    always@(MemtoRegE, RtE, RtD, RsD)
+    always@(MemtoRegE, MemtoRegM, RtE, RtD, RsD, BranchTotal, RegWriteE, WriteRegE, WriteRegM)
     begin      
-        if (MemtoRegE & ((RtE == RtD)|(RtE == RsD)))   
+        if ((MemtoRegE & ((RtE == RtD)|(RtE == RsD)))||((BranchTotal && RegWriteE && (WriteRegE == RsD || WriteRegE == RtD)) || (BranchTotal && MemtoRegM && (WriteRegM == RsD || WriteRegM == RtD))))   
         begin
             StallF = 1;
             StallD = 1;
@@ -53,7 +64,6 @@ module HazardUnit(BranchD, WriteRegE, MemtoRegE, RegWriteE, WriteRegM, MemtoRegM
             StallD = 0;
             FlushE = 0;
         end
-
     end
 
     // Control ForwardAD

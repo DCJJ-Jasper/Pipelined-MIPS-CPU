@@ -1,5 +1,7 @@
-// ALU module
-// The alu takes in the 3 bit opcode, rs value, rt value, and outputs a single 32 bit value. Alu has a case statement that takes in the opcode and depending on the opcode value a different operation is performed on the two value registers.
+// ALU (An arithmetic logic unit ) module
+
+// This modules does arithmetic logic depending on the given alu control signal.
+// According to the given control signal, it will do the corresponding arithmetic based on the given 2 inputs: rs and rt, and then pass to the output.
 
 module alu(opcode, rs, rt, out);
 
@@ -11,7 +13,8 @@ module alu(opcode, rs, rt, out);
     reg [31:0] temp;
 
     always@(*) begin
-        case(opcode)    //STARTCASE
+      
+        case(opcode)    
             3'b000:     //and
             begin
                 temp = rs & rt;
@@ -51,9 +54,9 @@ module alu(opcode, rs, rt, out);
      
             default: temp = 0;
      
-        endcase         //ENDCASE
+        endcase         
 
-    end // always@ (*)
+    end 
 
     assign out = temp;
    
@@ -66,24 +69,23 @@ endmodule
 // Here is the simple test for this module individually.
 module test();
    
-   reg [2:0] opcode = 3'b010;
-   reg [31:0] rs = 32'b1011;
-   reg [31:0] rt = 32'b111;
-   wire       [31:0] out;
+    reg [2:0] opcode = 3'b010;
+    reg [31:0] rs = 32'b1011;
+    reg [31:0] rt = 32'b111;
 
-   initial begin
-      #10 opcode = 6;
-      #10 opcode = 0;
-      #10 opcode = 1;
-      #10 opcode = 7;
-      
-      
-   end
+    wire [31:0] out;
 
-   initial
-     $monitor("op:%b rs:%b rt:%b out:%b",opcode,rs,rt,out );
+    initial begin
+        #10 opcode = 6;
+        #10 opcode = 0;
+        #10 opcode = 1;
+        #10 opcode = 7;
+    end
 
-   alu one(opcode,rs,rt,out);
+    initial
+        $monitor("op:%b rs:%b rt:%b out:%b",opcode,rs,rt,out );
+
+    alu one(opcode,rs,rt,out);
      
 endmodule
 */

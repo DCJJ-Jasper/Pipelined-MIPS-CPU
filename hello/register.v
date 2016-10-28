@@ -1,7 +1,10 @@
 // Register module
-//Our register module takes as input the clock, the two source registers, regwrite signal, the destination register, data(an immediate value), the registers are also output with two different 32 bit values immediates (data1 and data2) coming from either the alu or memory. This module functions to store the values of all of our 32 bit registers used to compute in our processor. In the case of a register write the module responds will respond to the signal comming from the writeback stage and write to the appropriate register.
 
-module register(input clk,input[4:0] register1,input[4:0] register2,input[4:0] writeregister,input[31:0] data,input regWrite,output reg [31:0] data1,output reg [31:0] data2,output [31:0]regv,output [31:0]rega);
+// This module creates the space for 32 registers which we would hold in this pipelined cpu.
+
+// Also, it will read the content from register and write back the content to register based on the control signal.
+
+module register(input clk, input[4:0] register1, input[4:0] register2, input[4:0] writeregister, input[31:0] data, input regWrite, output reg [31:0] data1, output reg [31:0] data2, output [31:0]regv, output [31:0]rega);
    
     //array of 32 indexes with 32 bit numbers as values
     reg [31:0] mymem [5'b11111 : 5'b00000];
@@ -10,6 +13,7 @@ module register(input clk,input[4:0] register1,input[4:0] register2,input[4:0] w
 	assign regv = mymem[2];
 	assign rega = mymem[4];
 
+    // Initialize for the beginning
     initial begin
         for(i=5'b0; i<5'b11111; i=i+1)begin //set mem values to 0
             mymem[i]=0;

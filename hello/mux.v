@@ -1,4 +1,8 @@
-//Multiplexer will select between the two inputs based on the control(select) signal. 1 dictates input 1 and 0 dictates input 2
+// mux module
+
+// This module helps to select which of the two inputs would be taken based on the select signal.
+
+
 module mux(in1, in2, select, out);
 
 	input [31:0] in1;
