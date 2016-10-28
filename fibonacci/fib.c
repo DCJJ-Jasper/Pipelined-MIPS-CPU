@@ -16,7 +16,7 @@ int fibonacci(int n)
 int main(void)
 {
     char s[128]= {0};
-    int f = fibonacci(1846);
+    int f = fibonacci(12);
     puts("Result is:");
     puts(itoa(f));
     puts("\n");
