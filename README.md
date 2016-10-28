@@ -8,9 +8,11 @@ We first added logic for the basic jump that to find the address for that should
 
 ## Branch Logic
 
-## SLL
+We started with the basic logic and handled Bypass when an instruction before the branch changes a register that is being compared in the Decode stage.  Next we basically comined all of the different types of branches into one control signal that will tell the branch mux whether or not to change the PC.  So we compare if the register values are Equal, Not Equal or Less Than as well as their coresponding control signals notifying if it is actually that instruction in the decode section of the pipeline.
 
-## SRA
+## SLL and SRA
+
+We handeled SLL and SRA outside of our ALU because we thought we were out of control bits because we started with only a 3 bit ALUControl.  Instead we just always shift the Rt register based on the Shamt part of the instruction and we have a 2 bit control signal to pick if it was SLL, SRA or the output of ALU.
 
 ## DIV
 
